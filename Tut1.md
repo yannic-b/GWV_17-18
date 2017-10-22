@@ -6,28 +6,24 @@
 
 ##### Exercise 1.1 : (Search space properties)
 
-**Observability:** 
-
-- Wenn etwas nur partially observable ist, muss man zum Beispiel altes Wissen über nicht mehr sichtbare Bereiche speichern
-
-**Discreteness:** 
-
-- Wichtig um die richtige Art Algorithmus auszusuchen, zum Beispiel Entscheidung ob Diskretisierung nötig ist oder der Algorithmus continous features unterstützt
-
-**Determinism:** 
-
-- In einer deterministicschen Welt sind mögliche zukünftige Weltzustände vollständig bekannt -> es gibt immer eine beste Entscheidung
-- In einer stochastischen muss mit Wahrscheinlichkeiten gearbeitet werden und die beste Entscheidung garnatiert nicht das beste Ergebnis 
+-  Angenommen wir haben einen Roboter der sich über ein Feld mit Hindernissen zu einem Zielfeld bewegt.
+- Der Roboter sieht nur das, was unmittelbar vor ihm steht. Würde er alles wissen, kˆnnte er gezielt
+- Hindernissen ausweichen. Jedoch muss er nun nach jedem Schritt schauen, ob er einem Hindernis ausweichen muss.
+- Somit hat er einen Teil der Umgebung als Information zur Verfügung und kann so mit Hilfe von Wahrscheinlichkeiten, die wir aufgrund einer diskreter Anzahl von Informationen (endliche Menge an Hindernissen und Feldern) seine nächste Aktion berechnen.
 
 
 
 ##### Exercise 1.2.1 : (Search Space 1) - Public Transport
 
-State Space is the sum of all tuples of all possible combinations of places and times.
+Der Zustandsraum besteht aus:
 
-A node would be one specific place and time as a tuple.
+- endliche Menge an Haltestellen
+- endliche Menge an Übergängen zwischen Haltestellen
+- Start Haltestelle
+- End Haltestelle
 
-The edges would represent the changes in place and time.
+Ein Knoten beschreibt eine Haltestelle und wird durch eine Kante mit anderen erreichbaren Haltestellen verbunden.
+Somit sind im Zustandsraum alle Knoten, Kanten und Übergänge gegeben.
 
 
 
