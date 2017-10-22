@@ -7,8 +7,7 @@
 ##### Exercise 1.1 : (Search space properties)
 
 -  Angenommen wir haben einen Roboter der sich über ein Feld mit Hindernissen zu einem Zielfeld bewegt.
-- Der Roboter sieht nur das, was unmittelbar vor ihm steht. Würde er alles wissen, kˆnnte er gezielt
-- Hindernissen ausweichen. Jedoch muss er nun nach jedem Schritt schauen, ob er einem Hindernis ausweichen muss.
+- Der Roboter sieht nur das, was unmittelbar vor ihm steht. Würde er alles wissen, könnte er gezielt Hindernissen ausweichen. Jedoch muss er nun nach jedem Schritt schauen, ob er einem Hindernis ausweichen muss.
 - Somit hat er einen Teil der Umgebung als Information zur Verfügung und kann so mit Hilfe von Wahrscheinlichkeiten, die wir aufgrund einer diskreter Anzahl von Informationen (endliche Menge an Hindernissen und Feldern) seine nächste Aktion berechnen.
 
 
