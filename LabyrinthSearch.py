@@ -6,7 +6,7 @@ by Thomas Hofmann and Yannic Boysen
 
 # to use end functionallity
 from __future__ import print_function
-# for future exercises
+from time import time
 import Queue
 import numpy as np
 
@@ -19,6 +19,7 @@ class Labyrinth:
         self.labyrinth = []
         self.start = []
         self.goal = []
+        self.portals = {}
         self.importLabyrinth()
         # print(str(self.start), str(self.goal))
 
@@ -34,8 +35,11 @@ class Labyrinth:
                 if character == 'x':
                     row.append(0)
                 else:
+                    # portal check
+                    if character.isdigit():
+                        self.portals[str(np.array([y, x]))] = character
                     # save start and goal
-                    if character == 's':
+                    elif character == 's':
                         startCoords = [y, x]
                     elif character == 'g':
                         goalCoords = [y, x]
@@ -46,7 +50,7 @@ class Labyrinth:
         self.labyrinth = np.array(lab)
         self.start = np.array(startCoords)
         self.goal = np.array(goalCoords)
-        # print(self.labyrinth)
+        print(self.portals)
 
     def printLabyrinth(self, robot=(0, [0, 0])):
         # iterate through the internal structure (2d array)
@@ -116,13 +120,20 @@ class Labyrinth:
                 break
         return out[::-1]
 
-
     # function to return valid next Nodes
     def getNext(self, front):
         nextNodes = []
         vectors = []
         # all theoretically possible direction vectors for to lan on next Nodes
         additionVectors = np.array([[0, -1], [-1, 0], [0, 1], [1, 0]])
+        # handling portals
+        if str(front) in self.portals.keys():
+            # print("Portal!:", front)
+            portal = self.portals[str(front)]
+            for coord in self.portals.keys():
+                if (self.portals[coord] == portal) & (coord != str(front)):
+                    front = np.fromstring(coord[1:-1], dtype=int, sep=' ')
+        # calculating nextNodes
         for vector in additionVectors:
             # check if newNode is valid in labyrinth
             node = (front+vector)
@@ -176,13 +187,17 @@ class Labyrinth:
 
 
 # testing functionality
-labyrinths = ["ev0.txt", "ev1.txt", "ev2.txt"]
+labyrinths = ["ev0.txt", "ev1.txt", "ev2.txt", "ev3.txt", "ev4.txt"]
 
 for lab in labyrinths:
+    print("Testing:", lab)
+    start = time()
     l = Labyrinth(lab)
     l.printLabyrinth()
     l.bfs()
     l.dfs()
+    finish = time()
+    print("The testing in", lab, "took", finish-start, "seconds.\n")
 '''
 lab1 = Labyrinth("ev1.txt")
 lab1.printLabyrinth()
