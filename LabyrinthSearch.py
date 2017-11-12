@@ -7,7 +7,7 @@ by Thomas Hofmann and Yannic Boysen
 # to use end functionallity
 from __future__ import print_function
 # for future exercises
-from Queue import Queue
+import Queue
 import numpy as np
 
 
@@ -65,12 +65,14 @@ class Labyrinth:
                     print("x", end="")
             print("")
 
-    # Blatt 4: WIP
+    # Blatt 4:
+
+    # breadth-first-search:
     def bfs(self):
         visitedNodes = np.array(self.labyrinth * 0)
         dictForNextNode = {}
         # create queue and add start
-        q = Queue()
+        q = Queue.Queue()
         # create mirror of q to be able to use "not in"
         qMirrorSet = set()
         # add start to q and qMirrorSet (using numpy arrays String function as hashable)
@@ -79,7 +81,7 @@ class Labyrinth:
         dictForNextNode[str(self.start)] = (None, None)
         # start search, while q is not empty
         while not q.empty():
-            print(qMirrorSet)
+            # print(qMirrorSet)
             # remove current node from q and add to front
             front = q.get()
             qMirrorSet.remove(str(front))
@@ -87,7 +89,7 @@ class Labyrinth:
             if np.all(front == self.goal):
                 print("Success, goal at:", front, " was found!")
                 # print(dictForNextNode)
-                print("Path:", self.getPath2(front, dictForNextNode))
+                print("Path:", self.getPath(front, dictForNextNode))
                 break
             # find next valid Nodes
             for (node, vector) in self.getNext(front):
@@ -101,7 +103,7 @@ class Labyrinth:
                 # print(node)
 
     # function to calculate path
-    def getPath2(self, state, dictForNextNode):
+    def getPath(self, state, dictForNextNode):
         out = []
         while state is not None:
             # print(state)
@@ -134,6 +136,41 @@ class Labyrinth:
         # print(out)
         return out
 
+    # depth-first-search:
+    def dfs(self):
+        visitedNodes = np.array(self.labyrinth * 0)
+        dictForNextNode = {}
+        # create queue and add start
+        s = Queue.LifoQueue()
+        # create mirror of q to be able to use "not in"
+        qMirrorSet = set()
+        # add start to q and qMirrorSet (using numpy arrays String function as hashable)
+        s.put(self.start)
+        qMirrorSet.add(str(self.start))
+        dictForNextNode[str(self.start)] = (None, None)
+        # start search, while q is not empty
+        while not s.empty():
+            # print(qMirrorSet)
+            # remove current node from q and add to front
+            front = s.get()
+            qMirrorSet.remove(str(front))
+            # check if current node is goal
+            if np.all(front == self.goal):
+                print("Success, goal at:", front, " was found!")
+                # print(dictForNextNode)
+                print("Path:", self.getPath(front, dictForNextNode))
+                break
+            # find next valid Nodes
+            for (node, vector) in self.getNext(front):
+                if np.all(visitedNodes[node[0], node[1]]):
+                    continue
+                if str(node) not in qMirrorSet:
+                    dictForNextNode[str(node)] = (front, vector)
+                    s.put(node)
+                    qMirrorSet.add(str(node))
+                visitedNodes[front[0], front[1]] = 1
+                # print(node)
+
 
 # END CLASS
 
@@ -141,5 +178,5 @@ class Labyrinth:
 # testing functionality
 lab1 = Labyrinth("ev1.txt")
 lab1.printLabyrinth()
-testBFS = lab1.bfs()
-print(testBFS)
+lab1.bfs()
+lab1.dfs()
