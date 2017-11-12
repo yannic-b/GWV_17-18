@@ -85,8 +85,10 @@ class Labyrinth:
             qMirrorSet.remove(str(front))
             # check if current node is goal
             if np.all(front == self.goal):
-                print("Success")
-                return self.getPath(front, dictForNextNode)
+                print("Success, goal at:", front, " was found!")
+                # print(dictForNextNode)
+                print("Path:", self.getPath2(front, dictForNextNode))
+                break
             # find next valid Nodes
             for (node, vector) in self.getNext(front):
                 if np.all(visitedNodes[node[0], node[1]]):
@@ -98,18 +100,19 @@ class Labyrinth:
                 visitedNodes[front[0], front[1]] = 1
                 # print(node)
 
-    # function to get search path
-    def getPath(self, state, dictForNextNode):
+    # function to calculate path
+    def getPath2(self, state, dictForNextNode):
         out = []
-        while True:
-            row = dictForNextNode[state]
-            if row.length == 2:
+        while state is not None:
+            # print(state)
+            row = dictForNextNode[str(state)]
+            if len(row) == 2:
+                out.append(str(state))
                 state = row[0]
-                vector = row[1]
-                out.append(vector)
+                # vector = row[1]
             else:
                 break
-        return out.reverse()
+        return out[::-1]
 
 
     # function to return valid next Nodes
@@ -121,10 +124,10 @@ class Labyrinth:
         for vector in additionVectors:
             # check if newNode is valid in labyrinth
             node = (front+vector)
-            print(node)
+            # print(node)
             if np.all(np.greater(self.labyrinth.shape, np.add(node, 1))):
                 if np.any(self.labyrinth[node[0], node[1]]):
-                    print("Tru")
+                    # print("Tru")
                     nextNodes.append(node)
                     vectors.append(vector)
         out = np.array(zip(nextNodes, vectors))
