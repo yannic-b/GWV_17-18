@@ -20,7 +20,7 @@ class Labyrinth:
         self.start = []
         self.goal = []
         self.importLabyrinth()
-        print(str(self.start), str(self.goal))
+        # print(str(self.start), str(self.goal))
 
     # Blatt 3:
     def importLabyrinth(self):
@@ -46,12 +46,12 @@ class Labyrinth:
         self.labyrinth = np.array(lab)
         self.start = np.array(startCoords)
         self.goal = np.array(goalCoords)
-        print(self.labyrinth)
+        # print(self.labyrinth)
 
     def printLabyrinth(self, robot=(0, [0, 0])):
         # iterate through the internal structure (2d array)
-        for y, row in enumerate(self.labyrinth):
-            for x, c in enumerate(row):
+        for x, row in enumerate(self.labyrinth):
+            for y, c in enumerate(row):
                 # print different symbols for ASCII representation
                 if robot[0] & np.all(robot[1] == [x, y]):   # optional robot
                     print("r", end="")
@@ -176,7 +176,16 @@ class Labyrinth:
 
 
 # testing functionality
+labyrinths = ["ev0.txt", "ev1.txt", "ev2.txt"]
+
+for lab in labyrinths:
+    l = Labyrinth(lab)
+    l.printLabyrinth()
+    l.bfs()
+    l.dfs()
+'''
 lab1 = Labyrinth("ev1.txt")
 lab1.printLabyrinth()
 lab1.bfs()
 lab1.dfs()
+'''
