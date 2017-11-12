@@ -20,7 +20,7 @@ class Labyrinth:
         self.start = []
         self.goal = []
         self.importLabyrinth()
-        # print(str(self.start), str(self.goal))
+        print(str(self.start), str(self.goal))
 
     # Blatt 3:
     def importLabyrinth(self):
@@ -36,9 +36,9 @@ class Labyrinth:
                 else:
                     # save start and goal
                     if character == 's':
-                        startCoords = [x, y]
+                        startCoords = [y, x]
                     elif character == 'g':
-                        goalCoords = [x, y]
+                        goalCoords = [y, x]
                     row.append(1)
             # append whole row to array
             lab.append(row)
@@ -89,13 +89,13 @@ class Labyrinth:
                 return self.getPath(front, dictForNextNode)
             # find next valid Nodes
             for (node, vector) in self.getNext(front):
-                if np.all(visitedNodes[node]):
+                if np.all(visitedNodes[node[0], node[1]]):
                     continue
                 if str(node) not in qMirrorSet:
                         dictForNextNode[str(node)] = (front, vector)
                         q.put(node)
                         qMirrorSet.add(str(node))
-                visitedNodes[front] = 1
+                visitedNodes[front[0], front[1]] = 1
                 # print(node)
 
     # function to get search path
@@ -109,7 +109,7 @@ class Labyrinth:
                 out.append(vector)
             else:
                 break
-        return out
+        return out.reverse()
 
 
     # function to return valid next Nodes
@@ -120,10 +120,11 @@ class Labyrinth:
         additionVectors = np.array([[0, -1], [-1, 0], [0, 1], [1, 0]])
         for vector in additionVectors:
             # check if newNode is valid in labyrinth
-            node = (front+vector)[::-1]
+            node = (front+vector)
             print(node)
-            if np.all(np.greater(self.labyrinth.shape, np.add(node, 1))) & np.all(node >= 0):
-                if np.any(self.labyrinth[node]):
+            if np.all(np.greater(self.labyrinth.shape, np.add(node, 1))):
+                if np.any(self.labyrinth[node[0], node[1]]):
+                    print("Tru")
                     nextNodes.append(node)
                     vectors.append(vector)
         out = np.array(zip(nextNodes, vectors))
