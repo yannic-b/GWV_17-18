@@ -10,6 +10,15 @@ from time import time
 import Queue
 import numpy as np
 
+'''
+Exercise 4.2:
+1),2) and 5) implemented in code...
+3)  ev5 shows the advantages of bfs, where close goals are found really fast,
+    while ev6 shows the advantages of dfs, which can find specific far goals quicker,
+    if they are in line with the movement priorities (here: left first).
+    [Results may vary because of small mazes]
+4)  in ev2 no solution is found, since the goal is not reachable 
+'''
 
 # class representing the labyrinth with functions to import, print etc.
 class Labyrinth:
@@ -50,18 +59,20 @@ class Labyrinth:
         self.labyrinth = np.array(lab)
         self.start = np.array(startCoords)
         self.goal = np.array(goalCoords)
-        print(self.portals)
+        # print(self.portals)
 
     def printLabyrinth(self, robot=(0, [0, 0])):
         # iterate through the internal structure (2d array)
-        for x, row in enumerate(self.labyrinth):
-            for y, c in enumerate(row):
+        for y, row in enumerate(self.labyrinth):
+            for x, c in enumerate(row):
                 # print different symbols for ASCII representation
-                if robot[0] & np.all(robot[1] == [x, y]):   # optional robot
+                if robot[0] & np.all(robot[1] == [y, x]):   # optional robot
                     print("r", end="")
-                elif np.all(self.start == [x, y]):
+                elif str(np.array([y, x])) in self.portals.keys():
+                    print(self.portals[str(np.array([y, x]))], end="")
+                elif np.all(self.start == [y, x]):
                     print("s", end="")
-                elif np.all(self.goal == [x, y]):
+                elif np.all(self.goal == [y, x]):
                     print("g", end="")
                 elif c:
                     print(" ", end="")
@@ -71,23 +82,26 @@ class Labyrinth:
 
     # Blatt 4:
 
-    # breadth-first-search:
-    def bfs(self):
+    # generic search function, which can do both bfs and dfs depending on collection type:
+    def search(self, searchType):
         visitedNodes = np.array(self.labyrinth * 0)
         dictForNextNode = {}
         # create queue and add start
-        q = Queue.Queue()
+        if searchType == "bf":
+            c = Queue.Queue()
+        elif searchType == "df":
+            c = Queue.LifoQueue()
         # create mirror of q to be able to use "not in"
         qMirrorSet = set()
         # add start to q and qMirrorSet (using numpy arrays String function as hashable)
-        q.put(self.start)
+        c.put(self.start)
         qMirrorSet.add(str(self.start))
         dictForNextNode[str(self.start)] = (None, None)
         # start search, while q is not empty
-        while not q.empty():
+        while not c.empty():
             # print(qMirrorSet)
             # remove current node from q and add to front
-            front = q.get()
+            front = c.get()
             qMirrorSet.remove(str(front))
             # check if current node is goal
             if np.all(front == self.goal):
@@ -101,23 +115,20 @@ class Labyrinth:
                     continue
                 if str(node) not in qMirrorSet:
                         dictForNextNode[str(node)] = (front, vector)
-                        q.put(node)
+                        c.put(node)
                         qMirrorSet.add(str(node))
                 visitedNodes[front[0], front[1]] = 1
                 # print(node)
 
-    # function to calculate path
+    # function to calculate backwards path starting at the goal
     def getPath(self, state, dictForNextNode):
         out = []
         while state is not None:
             # print(state)
             row = dictForNextNode[str(state)]
-            if len(row) == 2:
-                out.append(str(state))
-                state = row[0]
-                # vector = row[1]
-            else:
-                break
+            out.append(str(state))
+            state = row[0]
+        # return path in correct orientation
         return out[::-1]
 
     # function to return valid next Nodes
@@ -147,60 +158,30 @@ class Labyrinth:
         # print(out)
         return out
 
+    # breadth-first-search:
+    def bfs(self):
+        self.search("bf")
+
     # depth-first-search:
     def dfs(self):
-        visitedNodes = np.array(self.labyrinth * 0)
-        dictForNextNode = {}
-        # create queue and add start
-        s = Queue.LifoQueue()
-        # create mirror of q to be able to use "not in"
-        qMirrorSet = set()
-        # add start to q and qMirrorSet (using numpy arrays String function as hashable)
-        s.put(self.start)
-        qMirrorSet.add(str(self.start))
-        dictForNextNode[str(self.start)] = (None, None)
-        # start search, while q is not empty
-        while not s.empty():
-            # print(qMirrorSet)
-            # remove current node from q and add to front
-            front = s.get()
-            qMirrorSet.remove(str(front))
-            # check if current node is goal
-            if np.all(front == self.goal):
-                print("Success, goal at:", front, " was found!")
-                # print(dictForNextNode)
-                print("Path:", self.getPath(front, dictForNextNode))
-                break
-            # find next valid Nodes
-            for (node, vector) in self.getNext(front):
-                if np.all(visitedNodes[node[0], node[1]]):
-                    continue
-                if str(node) not in qMirrorSet:
-                    dictForNextNode[str(node)] = (front, vector)
-                    s.put(node)
-                    qMirrorSet.add(str(node))
-                visitedNodes[front[0], front[1]] = 1
-                # print(node)
+        self.search("df")
 
 
 # END CLASS
 
 
 # testing functionality
-labyrinths = ["ev0.txt", "ev1.txt", "ev2.txt", "ev3.txt", "ev4.txt"]
+labyrinths = ["ev0.txt", "ev1.txt", "ev2.txt", "ev3.txt", "ev4.txt", "ev5.txt", "ev6.txt"]
 
 for lab in labyrinths:
     print("Testing:", lab)
-    start = time()
     l = Labyrinth(lab)
     l.printLabyrinth()
+    start = time()
     l.bfs()
+    finish = time()
+    print("The search in", lab, "using bfs, took", finish - start, "seconds.\n")
+    start = time()
     l.dfs()
     finish = time()
-    print("The testing in", lab, "took", finish-start, "seconds.\n")
-'''
-lab1 = Labyrinth("ev1.txt")
-lab1.printLabyrinth()
-lab1.bfs()
-lab1.dfs()
-'''
+    print("The search in", lab, "using dfs, took", finish-start, "seconds.\n")
