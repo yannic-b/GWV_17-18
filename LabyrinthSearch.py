@@ -7,6 +7,8 @@ by Thomas Hofmann and Yannic Boysen
 # to use end functionallity
 from __future__ import print_function
 from time import time
+from itertools import count
+from scipy.spatial.distance import cityblock
 import Queue
 import numpy as np
 
@@ -61,10 +63,11 @@ class Labyrinth:
         self.goal = np.array(goalCoords)
         # print(self.portals)
 
-    def printLabyrinth(self, robot=(0, [0, 0])):
+    def printLabyrinth(self, path, robot=(0, [0, 0])):
         # iterate through the internal structure (2d array)
         for y, row in enumerate(self.labyrinth):
             for x, c in enumerate(row):
+                p = path[1]
                 # print different symbols for ASCII representation
                 if robot[0] & np.all(robot[1] == [y, x]):   # optional robot
                     print("r", end="")
@@ -74,6 +77,8 @@ class Labyrinth:
                     print("s", end="")
                 elif np.all(self.goal == [y, x]):
                     print("g", end="")
+                elif path[0] & np.all(p[y][x]):
+                    print("p", end="")
                 elif c:
                     print(" ", end="")
                 else:
@@ -86,6 +91,9 @@ class Labyrinth:
     def search(self, searchType):
         visitedNodes = np.array(self.labyrinth * 0)
         dictForNextNode = {}
+
+        maxNodes = 0
+        expansionCounter = 1
         # create queue and add start
         if searchType == "bf":
             c = Queue.Queue()
@@ -108,6 +116,8 @@ class Labyrinth:
                 print("Success, goal at:", front, " was found!")
                 # print(dictForNextNode)
                 print("Path:", self.getPath(front, dictForNextNode))
+                print("There were a maximum of", maxNodes, "nodes on the frontier.")
+                print(expansionCounter, "expansion operations were performed.")
                 break
             # find next valid Nodes
             for (node, vector) in self.getNext(front):
@@ -116,6 +126,9 @@ class Labyrinth:
                 if str(node) not in qMirrorSet:
                         dictForNextNode[str(node)] = (front, vector)
                         c.put(node)
+                        expansionCounter += 1
+                        if c.qsize() > maxNodes:
+                            maxNodes = c.qsize()
                         qMirrorSet.add(str(node))
                 visitedNodes[front[0], front[1]] = 1
                 # print(node)
@@ -123,11 +136,18 @@ class Labyrinth:
     # function to calculate backwards path starting at the goal
     def getPath(self, state, dictForNextNode):
         out = []
+        path = []
         while state is not None:
             # print(state)
             row = dictForNextNode[str(state)]
+            path.append(state)
             out.append(str(state))
             state = row[0]
+        p = self.labyrinth * 0
+        for x in path:
+            # print(x[0], x[1])
+            p[x[0], x[1]] = 1
+        self.printLabyrinth((1, p), (0, []))
         # return path in correct orientation
         return out[::-1]
 
@@ -158,6 +178,98 @@ class Labyrinth:
         # print(out)
         return out
 
+    # generic search function, which can do both bfs and dfs depending on collection type:
+    def aSearch(self):
+        visitedNodes = np.array(self.labyrinth * 0)
+        dictForNextNode = {}
+
+        maxNodes = 0
+        expansionCounter = 1
+        # create queue and add start
+        c = Queue.PriorityQueue()
+        # create mirror of q to be able to use "not in"
+        qMirrorSet = set()
+        # add start to q and qMirrorSet (using numpy arrays String function as hashable)
+
+        qMirrorSet.add(str(self.start))
+        dictForNextNode[str(self.start)] = (None, None)
+
+        tiebreaker = count()
+
+        gScore = {}
+        gScore[str(self.start)] = 0.0
+
+        fScore = {}
+        fScore[str(self.start)] = self.manDis(self.start, self.goal)
+
+        c.put((fScore[str(self.start)], next(tiebreaker), self.start))
+
+        # start search, while q is not empty
+        while not c.empty():
+            # print(qMirrorSet)
+            # remove current node from q and add to front
+            front = c.get()[2]
+            qMirrorSet.remove(str(front))
+            # check if current node is goal
+            if np.all(front == self.goal):
+                print("Success, goal at:", front, " was found!")
+                # print(dictForNextNode)
+                print("Path:", self.getPath(front, dictForNextNode))
+                print("There were a maximum of", maxNodes, "nodes on the frontier.")
+                print(expansionCounter, "expansion operations were performed.")
+                return(0)
+            # find next valid Nodes
+            for (node, vector) in self.getNextA(front):
+                if np.all(visitedNodes[node[0], node[1]]):
+                    continue
+                gScore[str(node)] = gScore[str(front)] + self.manDis(front, node)
+                fScore[str(node)] = gScore[str(node)] + self.manDis(node, self.goal)
+                if str(node) not in qMirrorSet:
+                    dictForNextNode[str(node)] = (front, vector)
+                    # print(gScore[str(node)], fScore[str(node)])
+                    expansionCounter += 1
+                    if c.qsize() > maxNodes:
+                        maxNodes = c.qsize()
+                    c.put((fScore[str(node)], next(tiebreaker), node))
+                    qMirrorSet.add(str(node))
+                visitedNodes[front[0], front[1]] = 1
+                # print(node)
+        print("A* search failed, no goal was found.")
+        return(1)
+
+
+    # function to return valid next Nodes
+    def getNextA(self, front):
+        nextNodes = []
+        vectors = []
+        # all theoretically possible direction vectors for to lan on next Nodes
+        additionVectors = np.array([[0, -1], [-1, 0], [0, 1], [1, 0]])
+        # handling portals
+        if str(front) in self.portals.keys():
+            # print("Portal!:", front)
+            portal = self.portals[str(front)]
+            for coord in self.portals.keys():
+                portalBetter = self.manDis(front, self.goal) >= self.manDis(np.fromstring(coord[1:-1], dtype=int, sep=' '), self.goal)
+                if (self.portals[coord] == portal) & (coord != str(front)) & portalBetter:
+                    front = np.fromstring(coord[1:-1], dtype=int, sep=' ')
+        # calculating nextNodes
+        for vector in additionVectors:
+            # check if newNode is valid in labyrinth
+            node = (front + vector)
+            # print(node)
+            if np.all(np.greater(self.labyrinth.shape, np.add(node, 1))):
+                if np.any(self.labyrinth[node[0], node[1]]):
+                    # print("Tru")
+                    nextNodes.append(node)
+                    vectors.append(vector)
+        out = np.array(zip(nextNodes, vectors))
+        # print(out)
+        return out
+
+    # function to calculate manhatten distance
+    def manDis(self, node1, node2):
+        return cityblock(node1, node2)
+
     # breadth-first-search:
     def bfs(self):
         self.search("bf")
@@ -176,7 +288,8 @@ labyrinths = ["ev0.txt", "ev1.txt", "ev2.txt", "ev3.txt", "ev4.txt", "ev5.txt", 
 for lab in labyrinths:
     print("Testing:", lab)
     l = Labyrinth(lab)
-    l.printLabyrinth()
+    path = l.labyrinth * 0
+    #l.printLabyrinth((1, path), (0, [0, 0]))
     start = time()
     l.bfs()
     finish = time()
@@ -185,3 +298,7 @@ for lab in labyrinths:
     l.dfs()
     finish = time()
     print("The search in", lab, "using dfs, took", finish-start, "seconds.\n")
+    start = time()
+    l.aSearch()
+    finish = time()
+    print("The search in", lab, "using a*, took", finish - start, "seconds.\n")
