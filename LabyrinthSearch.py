@@ -78,7 +78,7 @@ class Labyrinth:
                 elif np.all(self.goal == [y, x]):
                     print("g", end="")
                 elif path[0] & np.all(p[y][x]):
-                    print("p", end="")
+                    print("*", end="")
                 elif c:
                     print(" ", end="")
                 else:
