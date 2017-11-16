@@ -11,6 +11,7 @@ from itertools import count
 from scipy.spatial.distance import cityblock
 import Queue
 import numpy as np
+from random import randint
 
 '''
 Exercise 4.2:
@@ -39,6 +40,7 @@ class Labyrinth:
         # load file with labyrinth information
         environment = open(self.file, "r")
         lab = []
+        goalCoords = []
         # iterate through the lab and save 0 for every x and 1 for every free spot / start / end.
         for y, line in enumerate(environment):
             row = []
@@ -53,7 +55,7 @@ class Labyrinth:
                     elif character == 's':
                         startCoords = [y, x]
                     elif character == 'g':
-                        goalCoords = [y, x]
+                        goalCoords.append([y, x])
                     row.append(1)
             # append whole row to array
             lab.append(row)
@@ -180,6 +182,11 @@ class Labyrinth:
 
     # generic search function, which can do both bfs and dfs depending on collection type:
     def aSearch(self):
+        if len(self.goal) == 1:
+            self.goal = self.goal[0]
+        else:
+            self.goal = self.goal[randint(0, len(self.goal) - 1)]
+            print ("Goal is: " , self.goal)
         visitedNodes = np.array(self.labyrinth * 0)
         dictForNextNode = {}
 
