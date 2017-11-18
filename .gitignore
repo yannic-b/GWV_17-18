@@ -47,3 +47,11 @@ com_crashlytics_export_strings.xml
 crashlytics.properties
 crashlytics-build.properties
 fabric.properties
+
+# PyCharm intern
+*.iml
+*.xml
+.idea/misc.xml
+.idea/GWV_17-18.iml
+.idea/misc.xml
+.idea/GWV_17-18.iml
