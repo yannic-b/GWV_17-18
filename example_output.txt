@@ -1,0 +1,513 @@
+
+Testing: ev0.txt
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx 
+x      x                     x         x 
+x      x x  xxxxxxxxx x      x         x 
+x      x x  x         x      x         x 
+x  x   x xxxxxxx      x      x         x 
+x  x   x x  x    xxxxxxxxx   xxxxxx    x 
+x  x   x x  x        x     x      x    x 
+x  xxx   x  xxxxxxxxxx    xxxxxx  x    x 
+x    x   x  x    x     x  x    xxxx    x 
+x    x   x  x x  x   xxxx x            x 
+x  xxxxx x  x x  x      xxx            x 
+x        x  x x xxxxxx  x              x 
+x    x  xxx x x sxg     x           xxxx 
+x    x      x xxxxxxxxxxx   x      xx  x 
+x    xxxx   x           x    x  x  x   x 
+x    x      x xxxxxxxxx xx    x    x   x 
+x    x xxxxxx x       x  x    x  x     x 
+x             x       x  xx   x  xx  xxx 
+x         xxxxx    x  x   x      x     x 
+x                  x  x   x x          x 
+x                  x x    x x          x 
+x                      x  x x          x 
+x                   x  x    x          x 
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx 
+Success, goal at: [12 18]  was found!
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx 
+x      x*******************  x         x 
+x      x*x  xxxxxxxxx x   *  x         x 
+x      x*x  x         x   *  x         x 
+x  x   x*xxxxxxx      x   *  x         x 
+x  x   x*x  x    xxxxxxxxx*  xxxxxx    x 
+x  x   x*x  x        x*****x      x    x 
+x  xxx  *x  xxxxxxxxxx*   xxxxxx  x    x 
+x    x  *x  x*** x  ***x  x    xxxx    x 
+x    x  *x  x*x* x  *xxxx x            x 
+x  xxxxx*x  x*x* x  *** xxx            x 
+x   *****x  x*x*xxxxxx* x              x 
+x   *x  xxx x*x*sxg**** x           xxxx 
+x   *x      x*xxxxxxxxxxx   x      xx  x 
+x   *xxxx   x*          x    x  x  x   x 
+x   *x      x*xxxxxxxxx xx    x    x   x 
+x   *x xxxxxx*x       x  x    x  x     x 
+x   **********x       x  xx   x  xx  xxx 
+x         xxxxx    x  x   x      x     x 
+x                  x  x   x x          x 
+x                  x x    x x          x 
+x                      x  x x          x 
+x                   x  x    x          x 
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx 
+Path: ['[12 16]', '[12 15]', '[11 15]', '[10 15]', '[ 9 15]', '[ 8 15]', '[ 8 14]', '[ 8 13]', '[ 9 13]', '[10 13]', '[11 13]', '[12 13]', '[13 13]', '[14 13]', '[15 13]', '[16 13]', '[17 13]', '[17 12]', '[17 11]', '[17 10]', '[17  9]', '[17  8]', '[17  7]', '[17  6]', '[17  5]', '[17  4]', '[16  4]', '[15  4]', '[14  4]', '[13  4]', '[12  4]', '[11  4]', '[11  5]', '[11  6]', '[11  7]', '[11  8]', '[10  8]', '[9 8]', '[8 8]', '[7 8]', '[6 8]', '[5 8]', '[4 8]', '[3 8]', '[2 8]', '[1 8]', '[1 9]', '[ 1 10]', '[ 1 11]', '[ 1 12]', '[ 1 13]', '[ 1 14]', '[ 1 15]', '[ 1 16]', '[ 1 17]', '[ 1 18]', '[ 1 19]', '[ 1 20]', '[ 1 21]', '[ 1 22]', '[ 1 23]', '[ 1 24]', '[ 1 25]', '[ 1 26]', '[ 2 26]', '[ 3 26]', '[ 4 26]', '[ 5 26]', '[ 6 26]', '[ 6 25]', '[ 6 24]', '[ 6 23]', '[ 6 22]', '[ 7 22]', '[ 8 22]', '[ 8 21]', '[ 8 20]', '[ 9 20]', '[10 20]', '[10 21]', '[10 22]', '[11 22]', '[12 22]', '[12 21]', '[12 20]', '[12 19]', '[12 18]']
+There were a maximum of 21 nodes on the frontier.
+621 expansion operations were performed.
+The search in ev0.txt using bfs, took 0.308485984802 seconds.
+
+Success, goal at: [12 18]  was found!
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx 
+x      x****************     x         x 
+x      x*x  xxxxxxxxx x*     x         x 
+x      x*x  x         x*     x         x 
+x  x   x*xxxxxxx      x****  x         x 
+x  x   x*x  x    xxxxxxxxx*  xxxxxx    x 
+x  x   x*x  x        x   **x      x    x 
+x  xxx  *x  xxxxxxxxxx****xxxxxx  x    x 
+x    x  *x  x****x  ***x  x    xxxx    x 
+x    x  *x  x*x *x  *xxxx x            x 
+x  xxxxx*x  x*x**x  *** xxx            x 
+x      **x  x*x*xxxxxx* x              x 
+x    x *xxx x*x*sxg**** x           xxxx 
+x    x *****x*xxxxxxxxxxx   x      xx  x 
+x    xxxx  *x*          x    x  x  x   x 
+x    x******x*xxxxxxxxx xx    x    x   x 
+x    x*xxxxxx*x       x  x    x  x     x 
+x     ** *****x       x  xx   x  xx  xxx 
+x      * *xxxxx    x  x   x      x     x 
+x      * *         x  x   x x          x 
+x      * *         x x    x x          x 
+x      * *             x  x x          x 
+x      ***          x  x    x          x 
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx 
+Path: ['[12 16]', '[12 15]', '[11 15]', '[10 15]', '[10 16]', '[ 9 16]', '[ 8 16]', '[ 8 15]', '[ 8 14]', '[ 8 13]', '[ 9 13]', '[10 13]', '[11 13]', '[12 13]', '[13 13]', '[14 13]', '[15 13]', '[16 13]', '[17 13]', '[17 12]', '[17 11]', '[17 10]', '[17  9]', '[18  9]', '[19  9]', '[20  9]', '[21  9]', '[22  9]', '[22  8]', '[22  7]', '[21  7]', '[20  7]', '[19  7]', '[18  7]', '[17  7]', '[17  6]', '[16  6]', '[15  6]', '[15  7]', '[15  8]', '[15  9]', '[15 10]', '[15 11]', '[14 11]', '[13 11]', '[13 10]', '[13  9]', '[13  8]', '[13  7]', '[12  7]', '[11  7]', '[11  8]', '[10  8]', '[9 8]', '[8 8]', '[7 8]', '[6 8]', '[5 8]', '[4 8]', '[3 8]', '[2 8]', '[1 8]', '[1 9]', '[ 1 10]', '[ 1 11]', '[ 1 12]', '[ 1 13]', '[ 1 14]', '[ 1 15]', '[ 1 16]', '[ 1 17]', '[ 1 18]', '[ 1 19]', '[ 1 20]', '[ 1 21]', '[ 1 22]', '[ 1 23]', '[ 2 23]', '[ 3 23]', '[ 4 23]', '[ 4 24]', '[ 4 25]', '[ 4 26]', '[ 5 26]', '[ 6 26]', '[ 6 25]', '[ 7 25]', '[ 7 24]', '[ 7 23]', '[ 7 22]', '[ 8 22]', '[ 8 21]', '[ 8 20]', '[ 9 20]', '[10 20]', '[10 21]', '[10 22]', '[11 22]', '[12 22]', '[12 21]', '[12 20]', '[12 19]', '[12 18]']
+There were a maximum of 93 nodes on the frontier.
+496 expansion operations were performed.
+The search in ev0.txt using dfs, took 0.266963005066 seconds.
+
+Success, goal at: [12 18]  was found!
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx 
+x      x****************     x         x 
+x      x*x  xxxxxxxxx x*     x         x 
+x      x*x  x         x*     x         x 
+x  x   x*xxxxxxx      x****  x         x 
+x  x   x*x  x    xxxxxxxxx*  xxxxxx    x 
+x  x   x*x  x        x*****x      x    x 
+x  xxx  *x  xxxxxxxxxx*   xxxxxx  x    x 
+x    x  *x  x*** x  ***x  x    xxxx    x 
+x    x  *x  x*x* x  *xxxx x            x 
+x  xxxxx*x  x*x* x  *** xxx            x 
+x      **x  x*x*xxxxxx* x              x 
+x    x *xxx x*x*sxg**** x           xxxx 
+x    x ***  x*xxxxxxxxxxx   x      xx  x 
+x    xxxx*  x*          x    x  x  x   x 
+x    x****  x*xxxxxxxxx xx    x    x   x 
+x    x*xxxxxx*x       x  x    x  x     x 
+x     ********x       x  xx   x  xx  xxx 
+x         xxxxx    x  x   x      x     x 
+x                  x  x   x x          x 
+x                  x x    x x          x 
+x                      x  x x          x 
+x                   x  x    x          x 
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx 
+Path: ['[12 16]', '[12 15]', '[11 15]', '[10 15]', '[ 9 15]', '[ 8 15]', '[ 8 14]', '[ 8 13]', '[ 9 13]', '[10 13]', '[11 13]', '[12 13]', '[13 13]', '[14 13]', '[15 13]', '[16 13]', '[17 13]', '[17 12]', '[17 11]', '[17 10]', '[17  9]', '[17  8]', '[17  7]', '[17  6]', '[16  6]', '[15  6]', '[15  7]', '[15  8]', '[15  9]', '[14  9]', '[13  9]', '[13  8]', '[13  7]', '[12  7]', '[11  7]', '[11  8]', '[10  8]', '[9 8]', '[8 8]', '[7 8]', '[6 8]', '[5 8]', '[4 8]', '[3 8]', '[2 8]', '[1 8]', '[1 9]', '[ 1 10]', '[ 1 11]', '[ 1 12]', '[ 1 13]', '[ 1 14]', '[ 1 15]', '[ 1 16]', '[ 1 17]', '[ 1 18]', '[ 1 19]', '[ 1 20]', '[ 1 21]', '[ 1 22]', '[ 1 23]', '[ 2 23]', '[ 3 23]', '[ 4 23]', '[ 4 24]', '[ 4 25]', '[ 4 26]', '[ 5 26]', '[ 6 26]', '[ 6 25]', '[ 6 24]', '[ 6 23]', '[ 6 22]', '[ 7 22]', '[ 8 22]', '[ 8 21]', '[ 8 20]', '[ 9 20]', '[10 20]', '[10 21]', '[10 22]', '[11 22]', '[12 22]', '[12 21]', '[12 20]', '[12 19]', '[12 18]']
+There were a maximum of 26 nodes on the frontier.
+591 expansion operations were performed.
+The search in ev0.txt using a*, took 0.509997844696 seconds.
+
+Testing: ev1.txt
+xxxxxxxxxxxxxxxxxxxx 
+x                  x 
+x       xxx        x 
+x       x xxxxx    x 
+x   s     x        x 
+x       x x  xxxxxxx 
+x  xx xxxxx        x 
+x      x      g    x 
+x      x           x 
+xxxxxxxxxxxxxxxxxxxx 
+Success, goal at: [ 7 14]  was found!
+xxxxxxxxxxxxxxxxxxxx 
+x   ************   x 
+x   *   xxx    *   x 
+x   *   x xxxxx*   x 
+x   s     x ****   x 
+x       x x *xxxxxxx 
+x  xx xxxxx ***    x 
+x      x      g    x 
+x      x           x 
+xxxxxxxxxxxxxxxxxxxx 
+Path: ['[4 4]', '[3 4]', '[2 4]', '[1 4]', '[1 5]', '[1 6]', '[1 7]', '[1 8]', '[1 9]', '[ 1 10]', '[ 1 11]', '[ 1 12]', '[ 1 13]', '[ 1 14]', '[ 1 15]', '[ 2 15]', '[ 3 15]', '[ 4 15]', '[ 4 14]', '[ 4 13]', '[ 4 12]', '[ 5 12]', '[ 6 12]', '[ 6 13]', '[ 6 14]', '[ 7 14]']
+There were a maximum of 12 nodes on the frontier.
+104 expansion operations were performed.
+The search in ev1.txt using bfs, took 0.0566980838776 seconds.
+
+Success, goal at: [ 7 14]  was found!
+xxxxxxxxxxxxxxxxxxxx 
+x      *****       x 
+x  *** *xxx*****   x 
+x ** ***x xxxxx*   x 
+x * s     x ****   x 
+x * **  x x *xxxxxxx 
+x *xx*xxxxx *      x 
+x ** * x    * g    x 
+x  *** x    ***    x 
+xxxxxxxxxxxxxxxxxxxx 
+Path: ['[4 4]', '[5 4]', '[5 5]', '[6 5]', '[7 5]', '[8 5]', '[8 4]', '[8 3]', '[7 3]', '[7 2]', '[6 2]', '[5 2]', '[4 2]', '[3 2]', '[3 3]', '[2 3]', '[2 4]', '[2 5]', '[3 5]', '[3 6]', '[3 7]', '[2 7]', '[1 7]', '[1 8]', '[1 9]', '[ 1 10]', '[ 1 11]', '[ 2 11]', '[ 2 12]', '[ 2 13]', '[ 2 14]', '[ 2 15]', '[ 3 15]', '[ 4 15]', '[ 4 14]', '[ 4 13]', '[ 4 12]', '[ 5 12]', '[ 6 12]', '[ 7 12]', '[ 8 12]', '[ 8 13]', '[ 8 14]', '[ 7 14]']
+There were a maximum of 37 nodes on the frontier.
+107 expansion operations were performed.
+The search in ev1.txt using dfs, took 0.0563352108002 seconds.
+
+Success, goal at: [ 7 14]  was found!
+xxxxxxxxxxxxxxxxxxxx 
+x      ********    x 
+x      *xxx   **   x 
+x      *x xxxxx*   x 
+x   s***  x ****   x 
+x       x x *xxxxxxx 
+x  xx xxxxx ***    x 
+x      x      g    x 
+x      x           x 
+xxxxxxxxxxxxxxxxxxxx 
+Path: ['[4 4]', '[4 5]', '[4 6]', '[4 7]', '[3 7]', '[2 7]', '[1 7]', '[1 8]', '[1 9]', '[ 1 10]', '[ 1 11]', '[ 1 12]', '[ 1 13]', '[ 1 14]', '[ 2 14]', '[ 2 15]', '[ 3 15]', '[ 4 15]', '[ 4 14]', '[ 4 13]', '[ 4 12]', '[ 5 12]', '[ 6 12]', '[ 6 13]', '[ 6 14]', '[ 7 14]']
+There were a maximum of 11 nodes on the frontier.
+98 expansion operations were performed.
+The search in ev1.txt using a*, took 0.0988159179688 seconds.
+
+Testing: ev2.txt
+xxxxxxxxxxxxxxxxxxxx 
+x                  x 
+x       xxx        x 
+x       x xxxxx    x 
+x   s     x        x 
+x       x x  xxxxxxx 
+x  xx xxxxx  x     x 
+x      x     xg    x 
+x      x     x     x 
+xxxxxxxxxxxxxxxxxxxx 
+The search failed, no goal was found.
+The search in ev2.txt using bfs, took 0.0286009311676 seconds.
+
+The search failed, no goal was found.
+The search in ev2.txt using dfs, took 0.032623052597 seconds.
+
+A* search failed, no goal was found.
+The search in ev2.txt using a*, took 0.0794641971588 seconds.
+
+Testing: ev3.txt
+xxxxxxxxxxxxxxxxxxxx 
+x2                 x 
+x       xxx        x 
+x   1   x xxxxx    x 
+x   s              x 
+x       x x  xxxxxxx 
+x  xx xxxxx        x 
+x      x      g    x 
+x   1  x  2        x 
+xxxxxxxxxxxxxxxxxxxx 
+Success, goal at: [ 7 14]  was found!
+xxxxxxxxxxxxxxxxxxxx 
+x2                 x 
+x       xxx        x 
+x   1   x xxxxx    x 
+x   s********      x 
+x       x x *xxxxxxx 
+x  xx xxxxx ***    x 
+x      x      g    x 
+x   1  x  2        x 
+xxxxxxxxxxxxxxxxxxxx 
+Path: ['[4 4]', '[4 5]', '[4 6]', '[4 7]', '[4 8]', '[4 9]', '[ 4 10]', '[ 4 11]', '[ 4 12]', '[ 5 12]', '[ 6 12]', '[ 6 13]', '[ 6 14]', '[ 7 14]']
+There were a maximum of 17 nodes on the frontier.
+101 expansion operations were performed.
+The search in ev3.txt using bfs, took 0.0606260299683 seconds.
+
+Success, goal at: [ 7 14]  was found!
+xxxxxxxxxxxxxxxxxxxx 
+x2                 x 
+x  ***  xxx        x 
+x **1** x xxxxx    x 
+x * s ******       x 
+x * **  x x* xxxxxxx 
+x *xx*xxxxx*       x 
+x ** * x   *  g    x 
+x  *1* x  2****    x 
+xxxxxxxxxxxxxxxxxxxx 
+Path: ['[4 4]', '[5 4]', '[5 5]', '[6 5]', '[7 5]', '[8 5]', '[8 4]', '[8 3]', '[7 3]', '[7 2]', '[6 2]', '[5 2]', '[4 2]', '[3 2]', '[3 3]', '[2 3]', '[2 4]', '[2 5]', '[3 5]', '[3 6]', '[4 6]', '[4 7]', '[4 8]', '[4 9]', '[ 4 10]', '[ 4 11]', '[ 5 11]', '[ 6 11]', '[ 7 11]', '[ 8 11]', '[ 8 12]', '[ 8 13]', '[ 8 14]', '[ 7 14]']
+There were a maximum of 32 nodes on the frontier.
+78 expansion operations were performed.
+The search in ev3.txt using dfs, took 0.0411109924316 seconds.
+
+Success, goal at: [ 7 14]  was found!
+xxxxxxxxxxxxxxxxxxxx 
+x2                 x 
+x       xxx        x 
+x   1   x xxxxx    x 
+x   s********      x 
+x       x x *xxxxxxx 
+x  xx xxxxx ***    x 
+x      x      g    x 
+x   1  x  2        x 
+xxxxxxxxxxxxxxxxxxxx 
+Path: ['[4 4]', '[4 5]', '[4 6]', '[4 7]', '[4 8]', '[4 9]', '[ 4 10]', '[ 4 11]', '[ 4 12]', '[ 5 12]', '[ 6 12]', '[ 6 13]', '[ 6 14]', '[ 7 14]']
+There were a maximum of 16 nodes on the frontier.
+45 expansion operations were performed.
+The search in ev3.txt using a*, took 0.0446529388428 seconds.
+
+Testing: ev4.txt
+xxxxxxxxxxxxxxxxxxxx 
+x2                 x 
+x       xxx     3  x 
+x   1   x xxxxx    x 
+x  4s3       5     x 
+x   5 g x x  xxxxxxx 
+x  xx xxxxx      4 x 
+x      x           x 
+x   1  x  2        x 
+xxxxxxxxxxxxxxxxxxxx 
+Success, goal at: [5 6]  was found!
+xxxxxxxxxxxxxxxxxxxx 
+x2                 x 
+x       xxx     3  x 
+x   1   x xxxxx    x 
+x  4s3*      5     x 
+x   5 g x x  xxxxxxx 
+x  xx xxxxx      4 x 
+x      x           x 
+x   1  x  2        x 
+xxxxxxxxxxxxxxxxxxxx 
+Path: ['[4 4]', '[4 5]', '[4 6]', '[5 6]']
+There were a maximum of 20 nodes on the frontier.
+48 expansion operations were performed.
+The search in ev4.txt using bfs, took 0.0399940013885 seconds.
+
+Success, goal at: [5 6]  was found!
+xxxxxxxxxxxxxxxxxxxx 
+x2              ***x 
+x       xxx     3 *x 
+x   1   x xxxxx   *x 
+x  4s3       5*****x 
+x   5*g x x  xxxxxxx 
+x  xx xxxxx      4 x 
+x      x           x 
+x   1  x  2        x 
+xxxxxxxxxxxxxxxxxxxx 
+Path: ['[4 4]', '[5 4]', '[ 4 14]', '[ 4 15]', '[ 4 16]', '[ 4 17]', '[ 4 18]', '[ 3 18]', '[ 2 18]', '[ 1 18]', '[ 1 17]', '[ 1 16]', '[ 2 16]', '[5 5]', '[5 6]']
+There were a maximum of 39 nodes on the frontier.
+119 expansion operations were performed.
+The search in ev4.txt using dfs, took 0.0727231502533 seconds.
+
+Success, goal at: [5 6]  was found!
+xxxxxxxxxxxxxxxxxxxx 
+x2                 x 
+x       xxx     3  x 
+x   1   x xxxxx    x 
+x  4s3*      5     x 
+x   5 g x x  xxxxxxx 
+x  xx xxxxx      4 x 
+x      x           x 
+x   1  x  2        x 
+xxxxxxxxxxxxxxxxxxxx 
+Path: ['[4 4]', '[4 5]', '[4 6]', '[5 6]']
+There were a maximum of 7 nodes on the frontier.
+13 expansion operations were performed.
+The search in ev4.txt using a*, took 0.0312271118164 seconds.
+
+Testing: ev5.txt
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx 
+x                              x 
+x                              x 
+x                              x 
+x                              x 
+x                              x 
+x                              x 
+x                              x 
+x                              x 
+x                              x 
+x                              x 
+x                              x 
+x                              x 
+x                              x 
+x                              x 
+x                          g   x 
+x                          s   x 
+x                              x 
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx 
+Success, goal at: [15 27]  was found!
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx 
+x                              x 
+x                              x 
+x                              x 
+x                              x 
+x                              x 
+x                              x 
+x                              x 
+x                              x 
+x                              x 
+x                              x 
+x                              x 
+x                              x 
+x                              x 
+x                              x 
+x                          g   x 
+x                          s   x 
+x                              x 
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx 
+Path: ['[16 27]', '[15 27]']
+There were a maximum of 6 nodes on the frontier.
+8 expansion operations were performed.
+The search in ev5.txt using bfs, took 0.063619852066 seconds.
+
+Success, goal at: [15 27]  was found!
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx 
+x                              x 
+x                              x 
+x                              x 
+x                              x 
+x                              x 
+x                              x 
+x                              x 
+x                              x 
+x                              x 
+x                              x 
+x                              x 
+x                              x 
+x                              x 
+x                              x 
+x                          g   x 
+x                          s   x 
+x                              x 
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx 
+Path: ['[16 27]', '[15 27]']
+There were a maximum of 215 nodes on the frontier.
+510 expansion operations were performed.
+The search in ev5.txt using dfs, took 0.275191068649 seconds.
+
+Success, goal at: [15 27]  was found!
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx 
+x                              x 
+x                              x 
+x                              x 
+x                              x 
+x                              x 
+x                              x 
+x                              x 
+x                              x 
+x                              x 
+x                              x 
+x                              x 
+x                              x 
+x                              x 
+x                              x 
+x                          g   x 
+x                          s   x 
+x                              x 
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx 
+Path: ['[16 27]', '[15 27]']
+There were a maximum of 3 nodes on the frontier.
+5 expansion operations were performed.
+The search in ev5.txt using a*, took 0.0523710250854 seconds.
+
+Testing: ev6.txt
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx 
+x                              x 
+x              x               x 
+x              x               x 
+x              x               x 
+x              x               x 
+x      g       x               x 
+x              x      g        x 
+x              x               x 
+x              x               x 
+x              x               x 
+x              x               x 
+x        g    gx               x 
+x              x               x 
+x              x         g   g x 
+x              x    g          x 
+xg             x           s   x 
+x              x               x 
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx 
+Success, goal at: [6 7]  was found!
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx 
+x      **********              x 
+x      *       x*              x 
+x      *       x*              x 
+x      *       x*              x 
+x      *       x*              x 
+x      g       x*              x 
+x              x*     g        x 
+x              x*              x 
+x              x*              x 
+x              x*              x 
+x              x*              x 
+x        g    gx*              x 
+x              x*              x 
+x              x*        g   g x 
+x              x*   g          x 
+xg             x***********s   x 
+x              x               x 
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx 
+Path: ['[16 27]', '[16 26]', '[16 25]', '[16 24]', '[16 23]', '[16 22]', '[16 21]', '[16 20]', '[16 19]', '[16 18]', '[16 17]', '[16 16]', '[15 16]', '[14 16]', '[13 16]', '[12 16]', '[11 16]', '[10 16]', '[ 9 16]', '[ 8 16]', '[ 7 16]', '[ 6 16]', '[ 5 16]', '[ 4 16]', '[ 3 16]', '[ 2 16]', '[ 1 16]', '[ 1 15]', '[ 1 14]', '[ 1 13]', '[ 1 12]', '[ 1 11]', '[ 1 10]', '[1 9]', '[1 8]', '[1 7]', '[2 7]', '[3 7]', '[4 7]', '[5 7]', '[6 7]']
+There were a maximum of 17 nodes on the frontier.
+353 expansion operations were performed.
+The search in ev6.txt using bfs, took 0.207660913467 seconds.
+
+Success, goal at: [6 7]  was found!
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx 
+x         *** ***** *** *** ***x 
+x         * * *x  * * * * * * *x 
+x         * * *x  * * * * * * *x 
+x         * * *x  * * * * * * *x 
+x         * * *x  * * * * * * *x 
+x      g* * * *x  * * * * * * *x 
+x       * * * *x  * * g * * * *x 
+x       * * * *x ** * * * * * *x 
+x       * * * *x** ** * * * * *x 
+x       * * * *x* ** ** * * * *x 
+x       * * * *x*** ** ** * * *x 
+x       *g* * gx   ** ** ** * *x 
+x       * * * *x   * ** **  * *x 
+x       * * * *x   * * **g***g*x 
+x       * * * *x   *g* * **   *x 
+xg      * * * *x   * * * * s  *x 
+x       *** ***x   *** *** ****x 
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx 
+Path: ['[16 27]', '[17 27]', '[17 28]', '[17 29]', '[17 30]', '[16 30]', '[15 30]', '[14 30]', '[13 30]', '[12 30]', '[11 30]', '[10 30]', '[ 9 30]', '[ 8 30]', '[ 7 30]', '[ 6 30]', '[ 5 30]', '[ 4 30]', '[ 3 30]', '[ 2 30]', '[ 1 30]', '[ 1 29]', '[ 1 28]', '[ 2 28]', '[ 3 28]', '[ 4 28]', '[ 5 28]', '[ 6 28]', '[ 7 28]', '[ 8 28]', '[ 9 28]', '[10 28]', '[11 28]', '[12 28]', '[13 28]', '[14 28]', '[14 27]', '[14 26]', '[15 26]', '[15 25]', '[16 25]', '[17 25]', '[17 24]', '[17 23]', '[16 23]', '[15 23]', '[14 23]', '[14 24]', '[13 24]', '[13 25]', '[12 25]', '[12 26]', '[11 26]', '[10 26]', '[ 9 26]', '[ 8 26]', '[ 7 26]', '[ 6 26]', '[ 5 26]', '[ 4 26]', '[ 3 26]', '[ 2 26]', '[ 1 26]', '[ 1 25]', '[ 1 24]', '[ 2 24]', '[ 3 24]', '[ 4 24]', '[ 5 24]', '[ 6 24]', '[ 7 24]', '[ 8 24]', '[ 9 24]', '[10 24]', '[11 24]', '[11 23]', '[12 23]', '[12 22]', '[13 22]', '[13 21]', '[14 21]', '[15 21]', '[16 21]', '[17 21]', '[17 20]', '[17 19]', '[16 19]', '[15 19]', '[14 19]', '[13 19]', '[12 19]', '[12 20]', '[11 20]', '[11 21]', '[10 21]', '[10 22]', '[ 9 22]', '[ 8 22]', '[ 7 22]', '[ 6 22]', '[ 5 22]', '[ 4 22]', '[ 3 22]', '[ 2 22]', '[ 1 22]', '[ 1 21]', '[ 1 20]', '[ 2 20]', '[ 3 20]', '[ 4 20]', '[ 5 20]', '[ 6 20]', '[ 7 20]', '[ 8 20]', '[ 9 20]', '[ 9 19]', '[10 19]', '[10 18]', '[11 18]', '[11 17]', '[11 16]', '[10 16]', '[ 9 16]', '[ 9 17]', '[ 8 17]', '[ 8 18]', '[ 7 18]', '[ 6 18]', '[ 5 18]', '[ 4 18]', '[ 3 18]', '[ 2 18]', '[ 1 18]', '[ 1 17]', '[ 1 16]', '[ 1 15]', '[ 1 14]', '[ 2 14]', '[ 3 14]', '[ 4 14]', '[ 5 14]', '[ 6 14]', '[ 7 14]', '[ 8 14]', '[ 9 14]', '[10 14]', '[11 14]', '[12 14]', '[13 14]', '[14 14]', '[15 14]', '[16 14]', '[17 14]', '[17 13]', '[17 12]', '[16 12]', '[15 12]', '[14 12]', '[13 12]', '[12 12]', '[11 12]', '[10 12]', '[ 9 12]', '[ 8 12]', '[ 7 12]', '[ 6 12]', '[ 5 12]', '[ 4 12]', '[ 3 12]', '[ 2 12]', '[ 1 12]', '[ 1 11]', '[ 1 10]', '[ 2 10]', '[ 3 10]', '[ 4 10]', '[ 5 10]', '[ 6 10]', '[ 7 10]', '[ 8 10]', '[ 9 10]', '[10 10]', '[11 10]', '[12 10]', '[13 10]', '[14 10]', '[15 10]', '[16 10]', '[17 10]', '[17  9]', '[17  8]', '[16  8]', '[15  8]', '[14  8]', '[13  8]', '[12  8]', '[11  8]', '[10  8]', '[9 8]', '[8 8]', '[7 8]', '[6 8]', '[6 7]']
+There were a maximum of 214 nodes on the frontier.
+494 expansion operations were performed.
+The search in ev6.txt using dfs, took 0.240411043167 seconds.
+
+Goal is:  [[ 7 22]
+ [ 7 22]
+ [12  9]
+ [12 14]
+ [14 25]
+ [14 29]
+ [15 20]
+ [16  1]]
+Success, goal at: [ 7 22]  was found!
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx 
+x                              x 
+x              x               x 
+x              x               x 
+x              x               x 
+x              x               x 
+x              x               x 
+x              x      g        x 
+x              x      *        x 
+x              x      *        x 
+x              x      *        x 
+x              x      *        x 
+x        g    gx      *        x 
+x              x      *        x 
+x              x      *  g   g x 
+x              x    g *        x 
+xg             x      *****s   x 
+x              x               x 
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx 
+Path: ['[16 27]', '[16 26]', '[16 25]', '[16 24]', '[16 23]', '[16 22]', '[15 22]', '[14 22]', '[13 22]', '[12 22]', '[11 22]', '[10 22]', '[ 9 22]', '[ 8 22]', '[ 7 22]']
+There were a maximum of 30 nodes on the frontier.
+90 expansion operations were performed.
+The search in ev6.txt using a*, took 0.116574048996 seconds.
+
+
+Process finished with exit code 0

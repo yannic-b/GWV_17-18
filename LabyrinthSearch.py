@@ -21,6 +21,16 @@ Exercise 4.2:
     if they are in line with the movement priorities (here: left first).
     [Results may vary because of small mazes]
 4)  in ev2 no solution is found, since the goal is not reachable 
+
+
+Exercise 5:
+1. we chose manhattan distance as heuristic
+2. we check if going through the portal is better by applying heuristic to both portal entrances
+3. Yes, it terminates.
+4. See output file.
+5. not implemented
+6. since it is not specified which goal to find the path for, we choose random, 
+    but it would also be possible to choose the one with lowest heuristic from the start.
 '''
 
 # class representing the labyrinth with functions to import, print etc.
@@ -77,7 +87,7 @@ class Labyrinth:
                     print(self.portals[str(np.array([y, x]))], end="")
                 elif np.all(self.start == [y, x]):
                     print("s", end="")
-                elif np.all(self.goal == [y, x]):
+                elif np.any((self.goal == [y, x]).all(axis=1)):
                     print("g", end="")
                 elif path[0] & np.all(p[y][x]):
                     print("*", end="")
@@ -114,13 +124,13 @@ class Labyrinth:
             front = c.get()
             qMirrorSet.remove(str(front))
             # check if current node is goal
-            if np.all(front == self.goal):
+            if np.all(front == self.goal[0]):
                 print("Success, goal at:", front, " was found!")
                 # print(dictForNextNode)
                 print("Path:", self.getPath(front, dictForNextNode))
                 print("There were a maximum of", maxNodes, "nodes on the frontier.")
                 print(expansionCounter, "expansion operations were performed.")
-                break
+                return(0)
             # find next valid Nodes
             for (node, vector) in self.getNext(front):
                 if np.all(visitedNodes[node[0], node[1]]):
@@ -134,6 +144,8 @@ class Labyrinth:
                         qMirrorSet.add(str(node))
                 visitedNodes[front[0], front[1]] = 1
                 # print(node)
+        print("The search failed, no goal was found.")
+        return (1)
 
     # function to calculate backwards path starting at the goal
     def getPath(self, state, dictForNextNode):
@@ -182,11 +194,10 @@ class Labyrinth:
 
     # generic search function, which can do both bfs and dfs depending on collection type:
     def aSearch(self):
-        if len(self.goal) == 1:
-            self.goal = self.goal[0]
-        else:
-            self.goal = self.goal[randint(0, len(self.goal) - 1)]
-            print ("Goal is: " , self.goal)
+        if len(self.goal) != 1:
+            ran = randint(0, len(self.goal) - 1)
+            self.goal[0], self.goal[ran] = self.goal[ran], self.goal[0]
+            # print ("Goal is: ", self.goal)
         visitedNodes = np.array(self.labyrinth * 0)
         dictForNextNode = {}
 
@@ -207,7 +218,7 @@ class Labyrinth:
         gScore[str(self.start)] = 0.0
 
         fScore = {}
-        fScore[str(self.start)] = self.manDis(self.start, self.goal)
+        fScore[str(self.start)] = self.manDis(self.start, self.goal[0])
 
         c.put((fScore[str(self.start)], next(tiebreaker), self.start))
 
@@ -218,7 +229,7 @@ class Labyrinth:
             front = c.get()[2]
             qMirrorSet.remove(str(front))
             # check if current node is goal
-            if np.all(front == self.goal):
+            if np.all(front == self.goal[0]):
                 print("Success, goal at:", front, " was found!")
                 # print(dictForNextNode)
                 print("Path:", self.getPath(front, dictForNextNode))
@@ -230,7 +241,7 @@ class Labyrinth:
                 if np.all(visitedNodes[node[0], node[1]]):
                     continue
                 gScore[str(node)] = gScore[str(front)] + self.manDis(front, node)
-                fScore[str(node)] = gScore[str(node)] + self.manDis(node, self.goal)
+                fScore[str(node)] = gScore[str(node)] + self.manDis(node, self.goal[0])
                 if str(node) not in qMirrorSet:
                     dictForNextNode[str(node)] = (front, vector)
                     # print(gScore[str(node)], fScore[str(node)])
@@ -296,7 +307,7 @@ for lab in labyrinths:
     print("Testing:", lab)
     l = Labyrinth(lab)
     path = l.labyrinth * 0
-    #l.printLabyrinth((1, path), (0, [0, 0]))
+    l.printLabyrinth((1, path), (0, [0, 0]))
     start = time()
     l.bfs()
     finish = time()
