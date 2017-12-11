@@ -4,22 +4,26 @@
 
 Knowledgebase = KB
 
-Assumables:
+##### Assumables:
+
 Gardener : I have been working in the Garden all day. g_worked
 Butler: I have been fixing the car in the garage all day. b_worked
 
-Observations:
+##### Observations:
+
 The Gardener has no dirts on his hands !g_dirty
 Butler has dirt on his hands b_dirty
 
-Rules:
+##### Rules:
+
 If the gardener have worked in the garden all day, he has dirt
 on his hands g_worked -> g_dirty
 
 If the Butler worked in the garage all day, he has dirt on his hands
 b_worked -> b_dirty
 
-Integrity Constraints:
+##### Integrity Constraints:
+
 The gardener has either dirt on his hands or not
 g_dirty V !g_dirty -> false
 The butler has either dirt on his hands or not.

@@ -13,6 +13,7 @@ Diagnose wird durch einen eigenen Algorithmus gelöst.
 
 from itertools import islice
 
+
 class Diagnosis:
 
     components = ['battery', 'ignition', 'regulation', 'starter', 'engine', 'filter', 'pump', 'tank']
