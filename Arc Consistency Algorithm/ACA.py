@@ -71,7 +71,7 @@ class ACA:
             for cnr in range(len(word) - 1):
                 if word[cnr] == char:
                     out.add(word[cnr + 1])
-        # print 'isFollowing:', out
+        print 'isFollowing:', out
         return out
 
     def isWord(self, chars):
@@ -109,10 +109,10 @@ class ACA:
         loopNR = 0
         while 1:
             loopNR += 1
-            print loopNR
+            print 'loopNR:', loopNR
             coords = todo.pop()
             tuple = self.pairFromArray(coords)
-            if not self.arcReduce(tuple):
+            if self.arcReduce(tuple):
                 if len(tuple[0]) == 0:
                     return 'No solution was found :('
                 else:
@@ -137,6 +137,7 @@ class ACA:
             if not valid:
                 remx.append(x)
                 change = 1
+        print 'remx:', remx
         for x in remx:
             xs.remove(x)
         return change
