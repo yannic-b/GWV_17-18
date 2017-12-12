@@ -1,4 +1,4 @@
-#!/Applications/anaconda2/bin/python
+#!/Applications/anaconda2/bin/python2
 # coding=utf-8
 
 """
@@ -89,7 +89,7 @@ class Diagnosis:
             return 0
 
     def tank(self):
-        if self.noises[1]:
+        if self.cs['p']:
             self.cs['t'] = 1
             return 1
         else:

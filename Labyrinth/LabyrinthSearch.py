@@ -33,6 +33,7 @@ Exercise 5:
     but it would also be possible to choose the one with lowest heuristic from the start.
 '''
 
+
 # class representing the labyrinth with functions to import, print etc.
 class Labyrinth:
 
