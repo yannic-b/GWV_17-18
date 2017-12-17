@@ -1,0 +1,61 @@
+9.3 
+
+• The probability that the battery is working.
+0.9
+
+• The probability that the starter is working.
+0.9³ = 0.729
+
+• The probability that the engine is working.
+0.9 hoch 8 = 0.4304
+
+• The probability that the engine is working after making the observation that the pump is working.
+0.9³ = 0.729
+
+9.4
+Probabilities
+P(is_smuggler) = 0.01
+P(is_not_smuggler) = 0.99
+
+P(bark_at_smuggler) = 0.8
+P(bark_not_at_smuggler) 0.2
+
+P(bark_FPositive) = 0.05
+P(bark_positive) = 0.95
+
+P(no_sweat | smuggler ^ nofever) = 0.6
+P(sweat |smuggler^nofever = 0.4
+P(sweat | smuggler^fever = 0.8
+P(no_sweat |smuggler^fever) 0.2
+
+P(fever) = 0.013
+P(no_fever) = 0.987
+P(sweat | not_smuggler ^ fever) = 0.6
+P(no_sweat |not_smuggler^fever) = 0.4
+P(sweat | not_smuggler^fever) = 0
+P(no_sweat | not_smuggler^no_fever) = 1
+
+Give an example of "explaining away"
+Wenn jemand rausgezogen wird weil er schwitzt und man stellt fest die Person hat Fieber und ist kein Schmuggler.
+Dann kann man anhanddessen "weg erklären", weshalb der Hund nicht gebellt hat.
+
+oder
+
+wenn der Hund bellt weil es ein Schmuggler ist und dieser schwitzt weil er Nervös und kein Fieber hat,
+dann kann man Fieber "weg erklären".
+
+
+– The probability that a person is a smuggler given the observation that the drug
+dog is barking (1 Pt.)
+
+95% oder 0.95
+
+– The probability that a suspect is sweating (without any prior observation)
+(1 Pt.)
+0.0127 oder 1.27% -> Tabelle aufgestellt Sweat = True gesetzt und mit Tabelle
+von den Wahrscheinlichkeiten für fever und is_smuggler multipliziert.
+
+– The probability that a person is a smuggler given both the observations that
+that person is sweating and that the drug dog barked at him or her. (2 Pt.)
+
+0.75506 oder 75,5%
