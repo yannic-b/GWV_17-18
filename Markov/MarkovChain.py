@@ -63,16 +63,18 @@ class MarkovGenerator:
     #     self.wordMap = loadObj('wordMap')
 
     # calculates probabilities for each word based on number of occurrences
-    def calcProbs(self, wordList):
+    def calcProbs(self, wordList, pair):
         numWords = len(wordList)
-        counter = {}
+        counter = 0
         for word in wordList:
-            if word in counter:
-                counter[word] += 1
-            else:
-                counter[word] = 1
-        for word in counter.keys():
-            counter[word] /= float(numWords)
+            if word == pair:
+                counter += 1
+        #     if word in counter:
+        #         counter[word] += 1
+        #     else:
+        #         counter[word] = 1
+        # for word in counter.keys():
+        #     counter[word] /= float(numWords)
         return counter
 
     # chooses random element from probability distribution
@@ -96,7 +98,7 @@ class MarkovGenerator:
                 self.wordMap[pair] = [word]
             pair = (pair[1], word)
         for word in self.wordMap.keys():
-            probability = self.calcProbs(self.wordMap[word])
+            probability = self.calcProbs(self.wordMap, word)
             self.wordMap[word] = probability
 
     # creates a new Markov Chain comment, starting with a random word
