@@ -6,6 +6,9 @@ f = open (text_file, 'r')
 wordset = f.readlines()
 f.close()
 wordset = [word.strip() for word in wordset]
+wordset = [word.strip('.') for word in wordset]
+wordset = [word.strip(',') for word in wordset]
+wordset = [word.strip('!') for word in wordset]
 
 # operators is number of words observed
 # operator = 1 should be a bigram
@@ -22,7 +25,7 @@ def createProbabilityDict(words, operator):
 
 # generates random sequence with given length and start position
 def generateRandomSequence(length, startPosition, wordset):
-    startWord = wordset[startPosition]
+    startWord = wordset[startPosition - 1]
     sequence = startWord + ' '
 
     for i in range (0, length):
@@ -33,6 +36,6 @@ def generateRandomSequence(length, startPosition, wordset):
 
 
 #for testing purposes
-dictionary = createProbabilityDict(wordset, 6)
-print(generateRandomSequence(25, 500, wordset))
+dictionary = createProbabilityDict(wordset, 10)
+print(generateRandomSequence(25, 1, wordset))
 
