@@ -15,7 +15,8 @@ class Yahtzee:
 
     def __init__(self):
         self.game = []
-        self.dices = [0, 0, 0, 0, 0]
+        self.dices = Dices()
+        self.score_sheet = ScoreSheet()
 
 
     def digitScore(self, digit):
@@ -24,6 +25,22 @@ class Yahtzee:
             if dice == digit:
                 nr += 1
         return nr * digit
+
+    def checkAllOpt(self):
+        # dictOfOpt holds all possible Options and their utility (points)
+        dictOfOpt = {}
+        dictOfOpt.update((self.checkDups()))
+        print dictOfOpt
+
+    # Checks for Dups and adds them with their Utility into a dict allDups.
+    def checkDups(self):
+        allDups = {}
+        for key, value in self.dices.counts.iteritems():
+            if value > 1 and self.score_sheet.upperScores.values()[key - 1] == None:
+                valUtilitiy = key * value
+                allDups[key] = valUtilitiy
+        return allDups
+
 
 
 class Dices:
@@ -40,10 +57,10 @@ class Dices:
         self.fives = self.dices.count(5)
         self.sixes = self.dices.count(6)
         self.counts = {}  # dict(Counter(self.dices))
-        for x in range(6):
+        for x in range(1,7):
             self.counts[x] = self.dices.count(x)
 
-    def toString(self):
+    def diceToString(self):
         print self.dices
 
     def rollAgain(self, keep):
@@ -93,6 +110,7 @@ class ScoreSheet:
         if section == 'upper':
             self.upperScores[int(row)] = dices.countOf(int(row))
         else:
+            return True
 
 
 
@@ -101,13 +119,11 @@ class ScoreSheet:
 
 
 
-d = Dices()
-d.toString()
-d.rollAgain([1, 2])
-d.toString()
-print d.countOf(5)
+#d = Dices()
+y = Yahtzee()
+y.checkAllOpt()
 
-s = ScoreSheet()
-s.addThrow(d, 'upper', '5')
-s.calcTotal()
-print s.total
+#s = ScoreSheet()
+#s.addThrow(d, 'upper', '5')
+#s.calcTotal()
+#print s.total
