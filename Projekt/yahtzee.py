@@ -30,7 +30,15 @@ class Yahtzee:
         # dictOfOpt holds all possible Options and their utility (points)
         dictOfOpt = {}
         dictOfOpt.update((self.checkDups()))
+        dictOfOpt.update(self.checkFullHouse())
+        dictOfOpt.update(self.checkYahtzee())
+        dictOfOpt.update(self.checkThreeOfAKind())
+        dictOfOpt.update(self.checkFourOfAKind())
+        dictOfOpt.update(self.checkSmallStreet())
+        dictOfOpt.update(self.checkLargeStreet())
         print dictOfOpt
+
+
 
     # Checks for Dups and adds them with their Utility into a dict allDups.
     def checkDups(self):
@@ -40,6 +48,105 @@ class Yahtzee:
                 valUtilitiy = key * value
                 allDups[key] = valUtilitiy
         return allDups
+
+    def checkFullHouse(self):
+        if self.score_sheet.lowerScores['fh'] == None:
+            triple = False
+            double = False
+            for value in self.dices.counts.itervalues():
+                if value == 2:
+                    double = True
+                elif value == 3:
+                    triple = True
+            if triple == True and double == True:
+                return {'fh' : 25}
+            else:
+                return {'fh' : 0}
+        else:
+            return {'fh': 0}
+
+    def checkYahtzee(self):
+        if self.score_sheet.lowerScores['y'] == None:
+            firstNumber = self.dices.dices[0]
+            counter = 0
+            for number in self.dices.dices:
+                if number == firstNumber:
+                    counter += 1
+            if counter == 5:
+                return {'y' : 50}
+            else:
+                return {'y' : 0}
+        else:
+            return {'y': 0}
+
+    def checkThreeOfAKind(self):
+        if self.score_sheet.lowerScores['3oak'] == None:
+            for value in self.dices.counts.itervalues():
+                if value > 2:
+                    return {"3oak" : sum(self.dices.dices)}
+            return {"3oak": 0}
+        else:
+            return {"3oak": 0}
+
+    def checkFourOfAKind(self):
+        if self.score_sheet.lowerScores['4oak'] == None:
+            for value in self.dices.counts.itervalues():
+                if value > 3:
+                    return {"4oak" : sum(self.dices.dices)}
+            return {"4oak": 0}
+        else:
+            return {"4oak": 0}
+
+    def checkSmallStreet(self):
+        if self.score_sheet.lowerScores['sst'] == None:
+            counters = []
+            counter = 0
+            for x in range(1,5):
+                if x in self.dices.dices:
+                    counter += 1
+            counters.append(counter)
+            counter = 0
+            for x in range(2,6):
+                if x in self.dices.dices:
+                    counter += 1
+            counters.append(counter)
+            counter = 0
+            for x in range(3,7):
+                if x in self.dices.dices:
+                    counter += 1
+            counters.append(counter)
+            if x > 4 in counters:
+                return {"sst": 30}
+            else:
+                return {"sst": 0}
+        else:
+            return {"sst": 0}
+
+
+
+    def checkLargeStreet(self):
+        if self.score_sheet.lowerScores['lst'] == None:
+            counters = []
+            counter = 0
+            for x in range(1,6):
+                if x in self.dices.dices:
+                    counter += 1
+            counters.append(counter)
+            counter = 0
+            for x in range(2,7):
+                if x in self.dices.dices:
+                    counter += 1
+            counters.append(counter)
+            if x > 5 in counters:
+                return {"lst": 30}
+            else:
+                return {"lst": 0}
+        else:
+            return {"lst": 0}
+
+
+
+
 
 
 
@@ -94,17 +201,22 @@ class ScoreSheet:
             'y': None,
             'c': None
         }
-        self.total = 0
+        self.total_all = 0
+        self.total_upper = 0
+        self.total_lower = 0
+        self.bonus = False
 
     def calcTotal(self):
         for key, value in self.upperScores.iteritems():
             if value is not None:
-                self.total += value
-            if self.total > 62:
-                self.total += 35
+                self.total_upper += value
+            if self.total_upper > 62:
+                self.total_upper += 35
+                self.bonus = True
         for key, value in self.lowerScores.iteritems():
             if value is not None:
-                self.total += value
+                self.total_lower += value
+        self.total_all = self.total_upper + self.total_lower
 
     def addThrow(self, dices, section, row):
         if section == 'upper':
@@ -121,6 +233,7 @@ class ScoreSheet:
 
 #d = Dices()
 y = Yahtzee()
+print y.dices.counts
 y.checkAllOpt()
 
 #s = ScoreSheet()
