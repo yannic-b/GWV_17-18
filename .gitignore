@@ -49,9 +49,5 @@ crashlytics-build.properties
 fabric.properties
 
 # PyCharm intern
-*.iml
 *.xml
 *.iml
-*.xml
-.idea/misc.xml
-.idea/GWV_17-18.iml

@@ -36,7 +36,7 @@ class Yahtzee:
             maxOpt = max(self.dictOfOp, key=self.dictOfOp.get)
             if maxOpt in self.score_sheet.upperScores.keys():
                 self.score_sheet.addThrow(self.dices, "upper", maxOpt)
-                
+
             x += 1
 
 
