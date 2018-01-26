@@ -14,6 +14,7 @@ Version 1.0 (26.01.18, 18:41):
 import random
 
 
+# Class that represents a set of 5 dice
 class Dice:
 
     def __init__(self):
@@ -31,15 +32,14 @@ class Dice:
         # self.fours = self.dice.count(4)
         # self.fives = self.dice.count(5)
         # self.sixes = self.dice.count(6)
-          # dict(Counter(self.dice))
+        # dict(Counter(self.dice))
         for x in range(1, 7):
             self.counts[x] = self.dice.count(x)
         self.checkAll()
-        self.possibleRows = [str(range(1, 7)), 'ch']
+        self.possibleRows = [str(x) for x in range(1, 7)] + ['ch']
         for key in self.dictOfOpt.keys():
             if self.dictOfOpt[key] is True:
                 self.possibleRows.append(key)
-
 
     def roll(self):
         self.dice = sorted([random.randint(1, 6) for i in range(5)])
@@ -116,6 +116,7 @@ class Dice:
         return len(set(self.dice)) == 1
 
 
+# class representing the Score Sheet
 class Score:
 
     def __init__(self):
@@ -154,18 +155,20 @@ class Score:
         self.openRows = [key for key in self.sheet.keys() if self.sheet[key] is None]
 
     def addScore(self, dice, row):
-        score = Logic.calcScore(dice, row)
+        score = Logic.calcUtility(dice, row)
         print score
         self.sheet[row] = score
         self.update()
 
 
+# a game instance
 class Game:
 
     def __init__(self, verbose=0):
         self.dice = Dice()
         self.score = Score()
         self.vb = verbose
+        self.rollsLeft = 39
 
     def play(self, untilRound=13):
         print "STARTING GAME..."
@@ -176,23 +179,25 @@ class Game:
     def playRound(self):
         print "\nNext round: "
         print "Rolling dice..."
+        self.rollsLeft -= 1  # = 3
         self.dice.roll()
         self.dice.printOut()
-        for _ in range(2):
-            keepers = Logic.bestKeepers(self.dice, self.score)
+        while (self.rollsLeft % 3) != 0:
+            keepers = Logic.bestKeepers(self)
             print "Keeping:", keepers
             self.dice.rollAgain(keepers)
             print "Rolling remaining dice..."
             self.dice.printOut()
-        print self.dice.dictOfOpt # DEBUGGING
-        optimalRow = Logic.findOptimalRow(self.dice, self.score)
+            self.rollsLeft -= 1
+        print "PR:", self.dice.possibleRows  # DEBUGGING
+        optimalRow = Logic.findOptimalRow(self)
         print "Adding Score in", optimalRow
         self.score.addScore(self.dice, optimalRow)
         print "Score Sheet State: "
         self.score.printOut()
 
 
-
+# helper class to make decisions during game time
 class Logic:
 
     fixedScore = {
@@ -203,29 +208,33 @@ class Logic:
     }
 
     @staticmethod
-    def bestKeepers(dice, score):
-        return random.sample(dice.dice, random.randint(1, 5))
+    def bestKeepers(game):
+        return random.sample(game.dice.dice, random.randint(1, 5))
 
     @staticmethod
-    def findOptimalRow(dice, score):
+    def findOptimalRow(game):
         choices = []
-        openRows = score.openRows
-        possibleRows = dice.possibleRows
-        for key in score.sheet.keys():
+        openRows = game.score.openRows
+        possibleRows = game.dice.possibleRows
+        for key in game.score.sheet.keys():
             if (key in openRows) and (key in possibleRows):
                 choices.append(key)
-        choices.sort(key=(lambda x: Logic.calcScore(dice, x)))
+        choices.sort(key=(lambda x: Logic.calcUtility(game.dice, x)), reverse=True)
         if len(choices) > 0:
             return choices[0]
         else:
             return openRows[0]
 
     @staticmethod
-    def calcScore(dice, row):
-        if len(row) == 1:
-            score = dice.countOf(int(row)) * int(row)
-        elif row not in dice.possibleRows:
+    def calcProbability(game):
+        return
+
+    @staticmethod
+    def calcUtility(dice, row):
+        if row not in dice.possibleRows:
             score = 0
+        elif len(row) == 1:
+            score = dice.countOf(int(row)) * int(row)
         elif row in ['3k', '4k', 'ch']:
             score = sum(dice.dice)
         else:
@@ -233,5 +242,5 @@ class Logic:
         return score
 
 
-game = Game()
-game.play()
+gameOfYahtzee = Game()
+gameOfYahtzee.play()
