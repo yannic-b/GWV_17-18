@@ -17,28 +17,32 @@ class Yahtzee:
         self.game = []
         self.dices = Dices()
         self.score_sheet = ScoreSheet()
-        self.dictOfOp = {}
+        self.dictOfOpt = {}
 
     def simulateGame(self, verbosity=0):
         x = 0
-        while x < 5:  # self.score_sheet.isFilled():
+        while x < 13:  # not self.score_sheet.isFilled():
             self.dices = Dices()
             self.dices.diceToString()
-            keep = random.sample(self.dices.dices, random.randint(1, 5))
+            keep = self.findBestKeepOpt()
             print keep
             self.dices.rollAgain(keep)
             self.dices.diceToString()
-            keep = random.sample(self.dices.dices, random.randint(1, 5))
+            keep = self.findBestKeepOpt()
             print keep
             self.dices.rollAgain(keep)
             self.dices.diceToString()
             self.checkAllOpt()
-            maxOpt = max(self.dictOfOp, key=self.dictOfOp.get)
+            maxOpt = max(self.dictOfOpt, key=self.dictOfOpt.get)
             if maxOpt in self.score_sheet.upperScores.keys():
                 self.score_sheet.addThrow(self.dices, "upper", maxOpt)
-
+            else:
+                self.score_sheet.addThrow(self.dices, "lower", maxOpt)
+            self.score_sheet.out()
             x += 1
 
+    def findBestKeepOpt(self):
+        return random.sample(self.dices.dices, random.randint(1, 5))
 
     def digitScore(self, digit):
         nr = 0
@@ -213,7 +217,7 @@ class ScoreSheet:
             'sst': None,
             'lst': None,
             'y': None,
-            'c': None
+            'ch': None
         }
 
         self.total_all = 0
@@ -224,6 +228,9 @@ class ScoreSheet:
     def isFilled(self):
         board = [self.upperScores.values() + self.lowerScores.values()]
         return all(v is not None for v in board)
+
+    def out(self):
+        print self.upperScores, self.lowerScores
 
     def calcTotal(self):
         for key, value in self.upperScores.iteritems():
@@ -241,7 +248,7 @@ class ScoreSheet:
         if section == 'upper':
             self.upperScores[int(row)] = dices.countOf(int(row))
         else:
-            return True
+            self.lowerScores[row] = 0
 
 
 y = Yahtzee()
