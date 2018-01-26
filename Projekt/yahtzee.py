@@ -42,7 +42,21 @@ class Yahtzee:
             x += 1
 
     def findBestKeepOpt(self):
-        return random.sample(self.dices.dices, random.randint(1, 5))
+        # return random.sample(self.dices.dices, random.randint(1, 5))
+        maxOptKey = max(self.dictOfOp, key=self.dictOfOp.get)
+        maxOptValue = max(self.dictOfOp.values())
+
+        #print self.dictOfOp
+        #print maxOptKey
+        #print maxOptValue
+
+        if maxOptKey in self.score_sheet.upperScores.keys():
+            self.score_sheet.addThrow(self.dices, "upper", maxOptKey, maxOptValue)
+        elif maxOptKey in self.score_sheet.lowerScores.keys():
+            self.score_sheet.addThrow(self.dices, "lower", maxOptKey, maxOptValue)
+
+        self.score_sheet.calcTotal()
+        print self.score_sheet.total_all
 
     def digitScore(self, digit):
         nr = 0
@@ -53,13 +67,13 @@ class Yahtzee:
 
     def checkAllOpt(self):
         # dictOfOpt holds all possible Options and their utility (points)
-        self.dictOfOpt.update((self.checkDups()))
-        self.dictOfOpt.update(self.checkFullHouse())
-        self.dictOfOpt.update(self.checkYahtzee())
-        self.dictOfOpt.update(self.checkThreeOfAKind())
-        self.dictOfOpt.update(self.checkFourOfAKind())
-        self.dictOfOpt.update(self.checkSmallStreet())
-        self.dictOfOpt.update(self.checkLargeStreet())
+        self.dictOfOp.update((self.checkDups()))
+        self.dictOfOp.update(self.checkFullHouse())
+        self.dictOfOp.update(self.checkYahtzee())
+        self.dictOfOp.update(self.checkThreeOfAKind())
+        self.dictOfOp.update(self.checkFourOfAKind())
+        self.dictOfOp.update(self.checkSmallStreet())
+        self.dictOfOp.update(self.checkLargeStreet())
 
     # Checks for Dups and adds them with their Utility into a dict allDups.
     def checkDups(self):
@@ -244,11 +258,11 @@ class ScoreSheet:
                 self.total_lower += value
         self.total_all = self.total_upper + self.total_lower
 
-    def addThrow(self, dices, section, row):
+    def addThrow(self, dices, section, key, value):
         if section == 'upper':
-            self.upperScores[int(row)] = dices.countOf(int(row))
+            self.upperScores[key] = value
         else:
-            self.lowerScores[row] = 0
+            self.lowerScores[key] = value
 
 
 y = Yahtzee()
@@ -261,3 +275,5 @@ y = Yahtzee()
 # print s.total
 
 y.simulateGame()
+print y.score_sheet.lowerScores
+print y.score_sheet.upperScores
