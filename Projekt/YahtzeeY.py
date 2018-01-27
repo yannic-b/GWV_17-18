@@ -156,8 +156,9 @@ class Score:
 
     def addScore(self, dice, row):
         score = Logic.calcUtility(dice, row)
-        print score
+        #print score
         self.sheet[row] = score
+        #self.openRows.remove(row)
         self.update()
 
 
@@ -185,6 +186,7 @@ class Game:
         while (self.rollsLeft % 3) != 0:
             keepers = Logic.bestKeepers(self)
             print "Keeping:", keepers
+            print "PR:", self.dice.possibleRows
             self.dice.rollAgain(keepers)
             print "Rolling remaining dice..."
             self.dice.printOut()
@@ -209,7 +211,25 @@ class Logic:
 
     @staticmethod
     def bestKeepers(game):
-        return random.sample(game.dice.dice, random.randint(1, 5))
+        keep = []
+        optimalRow = Logic.findOptimalRow(game)
+        print optimalRow
+        if optimalRow in ['ya', 'ch' , '3k' , '4k' , 'fh']:
+            keep = game.dice.dice
+        elif optimalRow == 'ss':
+            if all(x in sorted(game.dice.dice) for x in [1, 2, 3, 4]): keep = [1, 2, 3, 4]
+            if all(x in sorted(game.dice.dice) for x in [2, 3, 4, 5]): keep = [2, 3, 4, 5]
+            if all(x in sorted(game.dice.dice) for x in [3, 4, 5, 6]): keep = [3, 4, 5, 6]
+        elif optimalRow == 'ls':
+            if sorted(game.dice.dice) == [1, 2, 3, 4, 5]: keep = [1, 2, 3, 4, 5]
+            if sorted(game.dice.dice) == [2, 3, 4, 5, 6]: keep = [2, 3, 4, 5, 6]
+        elif int(optimalRow) in range(1,7):
+            countOfOR = game.dice.countOf(int(optimalRow))
+            while (countOfOR > 0):
+                keep.append(int(optimalRow))
+                countOfOR -= 1
+        return keep
+        #return random.sample(game.dice.dice, random.randint(1, 5))
 
     @staticmethod
     def findOptimalRow(game):
