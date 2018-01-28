@@ -51,3 +51,5 @@ fabric.properties
 # PyCharm intern
 *.xml
 *.iml
+.idea/GWV_17-18.iml
+.idea/misc.xml

@@ -10,8 +10,20 @@ Version 1.0 (26.01.18, 18:41):
 
 """
 
-
 import random
+
+# used to turn on and off detailed output for each game
+verbose = 1
+if verbose:
+    def verbosePrint(*args):
+        # Print each argument separately so caller doesn't need to
+        # stuff everything to be printed into a single string
+        for arg in args:
+            print arg,
+        print
+else:
+    def verbosePrint(*args):
+        None
 
 
 # Class that represents a set of 5 dice
@@ -34,7 +46,7 @@ class Dice:
         # self.sixes = self.dice.count(6)
         # dict(Counter(self.dice))
         for x in range(1, 7):
-            self.counts[x] = self.dice.count(x)
+            self.counts[str(x)] = self.dice.count(x)
         self.checkAll()
         self.possibleRows = [str(x) for x in range(1, 7)] + ['ch']
         for key in self.dictOfOpt.keys():
@@ -54,7 +66,7 @@ class Dice:
         self.update()
 
     def printOut(self):
-        print self.dice
+        verbosePrint(self.dice)
 
     def countOf(self, digit):
         return self.counts[digit]
@@ -91,7 +103,7 @@ class Dice:
         counters = []
         counter = 0
         for x in range(1, 4):
-            for x in range(x, x+4):
+            for x in range(x, x + 4):
                 if x in self.dice:
                     counter += 1
             counters.append(counter)
@@ -101,12 +113,12 @@ class Dice:
     def hasLargeStraight(self):
         counters = []
         counter = 0
-        for x in range(1,6):
+        for x in range(1, 6):
             if x in self.dice:
                 counter += 1
         counters.append(counter)
         counter = 0
-        for x in range(2,7):
+        for x in range(2, 7):
             if x in self.dice:
                 counter += 1
         counters.append(counter)
@@ -145,7 +157,7 @@ class Score:
         return not all(self.sheet.values())
 
     def printOut(self):
-        print self.sheet
+        verbosePrint(self.sheet, "-> Bonus:", "Yes." if self.bonusGiven else "No.")
 
     def update(self):
         if not self.bonusGiven and sum(self.sheet[x] for x in self.sheet.keys() if x in [str(range(1, 7))]) >= 63:
@@ -156,52 +168,50 @@ class Score:
 
     def addScore(self, dice, row):
         score = Logic.calcUtility(dice, row)
-        #print score
+        # verboseprint score
         self.sheet[row] = score
-        #self.openRows.remove(row)
+        # self.openRows.remove(row)
         self.update()
 
 
 # a game instance
 class Game:
 
-    def __init__(self, verbose=0):
+    def __init__(self):
         self.dice = Dice()
         self.score = Score()
-        self.vb = verbose
         self.rollsLeft = 39
 
     def play(self, untilRound=13):
-        print "STARTING GAME..."
+        verbosePrint("STARTING GAME...")
         for _ in range(untilRound):
             self.playRound()
         print "\nFINAL SCORE:", self.score.total
 
     def playRound(self):
-        print "\nNext round: "
-        print "Rolling dice..."
+        verbosePrint("\nNext round: ")
+        verbosePrint("Rolling dice...")
         self.rollsLeft -= 1  # = 3
         self.dice.roll()
         self.dice.printOut()
         while (self.rollsLeft % 3) != 0:
             keepers = Logic.bestKeepers(self)
-            print "Keeping:", keepers
-            print "PR:", self.dice.possibleRows
+            verbosePrint("Keeping:", keepers)
+            verbosePrint("PR:", self.dice.possibleRows)
             self.dice.rollAgain(keepers)
-            print "Rolling remaining dice..."
+            verbosePrint("Rolling remaining dice...")
             self.dice.printOut()
             self.rollsLeft -= 1
-        print "PR:", self.dice.possibleRows  # DEBUGGING
+        verbosePrint("PR:", self.dice.possibleRows)  # DEBUGGING
         optimalRow = Logic.findOptimalRow(self)
-        print "Adding Score in", optimalRow
+        verbosePrint("Adding Score in", optimalRow)
         self.score.addScore(self.dice, optimalRow)
-        print "Score Sheet State: "
+        verbosePrint("Score Sheet State: ")
         self.score.printOut()
 
 
 # helper class to make decisions during game time
 class Logic:
-
     fixedScore = {
         'fh': 25,
         'ss': 30,
@@ -213,8 +223,8 @@ class Logic:
     def bestKeepers(game):
         keep = []
         optimalRow = Logic.findOptimalRow(game)
-        print optimalRow
-        if optimalRow in ['ya', 'ch' , '3k' , '4k' , 'fh']:
+        verbosePrint(optimalRow)
+        if optimalRow in ['ya', 'ch', '3k', '4k', 'fh']:
             keep = game.dice.dice
         elif optimalRow == 'ss':
             if all(x in sorted(game.dice.dice) for x in [1, 2, 3, 4]): keep = [1, 2, 3, 4]
@@ -223,13 +233,13 @@ class Logic:
         elif optimalRow == 'ls':
             if sorted(game.dice.dice) == [1, 2, 3, 4, 5]: keep = [1, 2, 3, 4, 5]
             if sorted(game.dice.dice) == [2, 3, 4, 5, 6]: keep = [2, 3, 4, 5, 6]
-        elif int(optimalRow) in range(1,7):
-            countOfOR = game.dice.countOf(int(optimalRow))
-            while (countOfOR > 0):
+        elif int(optimalRow) in range(1, 7):
+            countOfOR = game.dice.countOf(optimalRow)
+            while countOfOR > 0:
                 keep.append(int(optimalRow))
                 countOfOR -= 1
         return keep
-        #return random.sample(game.dice.dice, random.randint(1, 5))
+        # return random.sample(game.dice.dice, random.randint(1, 5))
 
     @staticmethod
     def findOptimalRow(game):
@@ -246,15 +256,51 @@ class Logic:
             return openRows[0]
 
     @staticmethod
-    def calcProbability(game):
+    def expectedUtility(game, row):
+        if len(row) == 1:
+            "SUCC"
+            rollsLeft = game.rollsLeft % 3
+            diceLeft = 5 - game.dice.countOf(row)
+            eU = Logic.calcUtility(game.dice, row)
+            for x in range(diceLeft + 1):
+                eU += int(row) * Logic.calcDigitProbability(diceLeft, rollsLeft, x)
+            return eU
+
+    @staticmethod
+    def calcProbability(dice, row):
         return
+
+    # magic function to calculate the probability to get exactly x specific digits with y Dices an z Roll left.
+    @staticmethod
+    def calcDigitProbability(diceLeft, rollsLeft, digitsLeftToGet=1):
+        print "in"
+        diceLeft, rollsLeft = float(diceLeft), float(rollsLeft)
+        if rollsLeft == 0:
+            return 0
+        elif digitsLeftToGet == 0:
+            return 1
+        else:
+            P = 0
+            for x in range(digitsLeftToGet+1):
+                print x
+                tempP = diceLeft * (1.0/6.0)**(digitsLeftToGet - x) * (5.0/6.0)**(diceLeft-(digitsLeftToGet-x))
+                print P
+                if x > 0:
+                    print "if"
+                    tempP *= Logic.calcDigitProbability(diceLeft-(digitsLeftToGet-x), rollsLeft - 1, x)
+                P += tempP
+                print P
+            if P > 1:
+                return 1
+            else:
+                return P
 
     @staticmethod
     def calcUtility(dice, row):
         if row not in dice.possibleRows:
             score = 0
         elif len(row) == 1:
-            score = dice.countOf(int(row)) * int(row)
+            score = dice.countOf(row) * int(row)
         elif row in ['3k', '4k', 'ch']:
             score = sum(dice.dice)
         else:
@@ -262,5 +308,24 @@ class Logic:
         return score
 
 
-gameOfYahtzee = Game()
-gameOfYahtzee.play()
+totals = []
+runs = 10
+for _ in range(runs):
+    gameOfYahtzee = Game()
+    gameOfYahtzee.play()
+    totals.append(gameOfYahtzee.score.total)
+print "\nPlayed", runs, "games, with following results:"
+print "Highest:", max(totals), "| Lowest:",min(totals), "| Average Score:", sum(totals) / len(totals)
+
+
+### TESTING ###
+# for i in range(5):
+#     print Logic.calcDigitProbability(3, 2, i), "\n"
+#
+# print Logic.calcDigitProbability(3, 1, 1)
+
+# g = Game()
+# g.dice = Dice()
+# g.rollsLeft = 2
+# g.dice.printOut()
+# print Logic.expectedUtility(g, "3")
