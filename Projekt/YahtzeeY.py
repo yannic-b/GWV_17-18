@@ -13,7 +13,7 @@ Version 1.0 (26.01.18, 18:41):
 import random
 
 # used to turn on and off detailed output for each game
-verbose = 1
+verbose = 0
 if verbose:
     def verbosePrint(*args):
         # Print each argument separately so caller doesn't need to
@@ -102,8 +102,8 @@ class Dice:
     def hasSmallStraight(self):
         counters = []
         counter = 0
-        for x in range(1, 4):
-            for x in range(x, x + 4):
+        for i in range(1, 4):
+            for x in range(i, i + 4):
                 if x in self.dice:
                     counter += 1
             counters.append(counter)
@@ -160,10 +160,13 @@ class Score:
         verbosePrint(self.sheet, "-> Bonus:", "Yes." if self.bonusGiven else "No.")
 
     def update(self):
-        if not self.bonusGiven and sum(self.sheet[x] for x in self.sheet.keys() if x in [str(range(1, 7))]) >= 63:
+        self.total = 0
+        upperKeys = [key for key in self.sheet.keys() if len(key) == 1]
+        if not self.bonusGiven and sum(self.sheet[x] for x in upperKeys if self.sheet[x] is not None) >= 63:
             self.total += 35
+            print "hallo"
             self.bonusGiven = True
-        self.total = sum(x for x in self.sheet.values() if x is not None)
+        self.total += sum(x for x in self.sheet.values() if x is not None)
         self.openRows = [key for key in self.sheet.keys() if self.sheet[key] is None]
 
     def addScore(self, dice, row):
@@ -249,7 +252,7 @@ class Logic:
         for key in game.score.sheet.keys():
             if (key in openRows) and (key in possibleRows):
                 choices.append(key)
-        choices.sort(key=(lambda x: Logic.calcUtility(game.dice, x)), reverse=True)
+        choices.sort(key=(lambda x: Logic.expectedUtility(game, x)), reverse=True)
         if len(choices) > 0:
             return choices[0]
         else:
@@ -260,11 +263,18 @@ class Logic:
         if len(row) == 1:
             "SUCC"
             rollsLeft = game.rollsLeft % 3
-            diceLeft = 5 - game.dice.countOf(row)
+            countOfRow = game.dice.countOf(row)
+            diceLeft = 5 - countOfRow
             eU = Logic.calcUtility(game.dice, row)
             for x in range(diceLeft + 1):
-                eU += int(row) * Logic.calcDigitProbability(diceLeft, rollsLeft, x)
+                probability = Logic.calcDigitProbability(diceLeft, rollsLeft, x)
+                normalUtility = int(row) * probability
+                bonusUtility = ((x + countOfRow) - 3) * 35 * (float(row)*3 / 63) * probability
+                # print bonusUtility
+                eU += (normalUtility + bonusUtility)
             return eU
+        else:
+            return Logic.calcUtility(game.dice, row)
 
     @staticmethod
     def calcProbability(dice, row):
@@ -273,7 +283,7 @@ class Logic:
     # magic function to calculate the probability to get exactly x specific digits with y Dices an z Roll left.
     @staticmethod
     def calcDigitProbability(diceLeft, rollsLeft, digitsLeftToGet=1):
-        print "in"
+        # print "in"
         diceLeft, rollsLeft = float(diceLeft), float(rollsLeft)
         if rollsLeft == 0:
             return 0
@@ -282,18 +292,15 @@ class Logic:
         else:
             P = 0
             for x in range(digitsLeftToGet+1):
-                print x
+                # print x
                 tempP = diceLeft * (1.0/6.0)**(digitsLeftToGet - x) * (5.0/6.0)**(diceLeft-(digitsLeftToGet-x))
-                print P
+                # print P
                 if x > 0:
-                    print "if"
+                    # print "if"
                     tempP *= Logic.calcDigitProbability(diceLeft-(digitsLeftToGet-x), rollsLeft - 1, x)
                 P += tempP
-                print P
-            if P > 1:
-                return 1
-            else:
-                return P
+                # print P
+            return 1 if P > 1 else P
 
     @staticmethod
     def calcUtility(dice, row):
@@ -309,7 +316,7 @@ class Logic:
 
 
 totals = []
-runs = 10
+runs = 1000
 for _ in range(runs):
     gameOfYahtzee = Game()
     gameOfYahtzee.play()
