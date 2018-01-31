@@ -37,6 +37,7 @@ class Dice:
         self.roll()
         self.update()
 
+    # function to update all fields after a dice roll
     def update(self):
         # self.ones = self.dice.count(1)
         # self.twos = self.dice.count(2)
@@ -53,10 +54,12 @@ class Dice:
             if self.dictOfOpt[key] is True:
                 self.possibleRows.append(key)
 
+    # initialize set of dice
     def roll(self):
-        self.dice = sorted([random.randint(1, 6) for i in range(5)])
+        self.dice = sorted([random.randint(1, 6) for _ in range(5)])
         self.update()
 
+    # second or third roll
     def rollAgain(self, keep):
         # remove = [d for d in self.dice if d not in keep]
         for d in keep:
@@ -71,6 +74,7 @@ class Dice:
     def countOf(self, digit):
         return self.counts[digit]
 
+    # all following functions are there to check presence of the different score requirements
     def checkAll(self):
         # dictOfOpt holds all possible Options and their utility (points)
         self.dictOfOpt['3k'] = self.hasThreeOfAKind()
@@ -159,16 +163,17 @@ class Score:
     def printOut(self):
         verbosePrint(self.sheet, "-> Bonus:", "Yes." if self.bonusGiven else "No.")
 
+    # update total after score is added
     def update(self):
         self.total = 0
         upperKeys = [key for key in self.sheet.keys() if len(key) == 1]
         if not self.bonusGiven and sum(self.sheet[x] for x in upperKeys if self.sheet[x] is not None) >= 63:
             self.total += 35
-            print "hallo"
             self.bonusGiven = True
         self.total += sum(x for x in self.sheet.values() if x is not None)
         self.openRows = [key for key in self.sheet.keys() if self.sheet[key] is None]
 
+    # add score in specific row
     def addScore(self, dice, row):
         score = Logic.calcUtility(dice, row)
         # verboseprint score
@@ -190,6 +195,7 @@ class Game:
         for _ in range(untilRound):
             self.playRound()
         print "\nFINAL SCORE:", self.score.total
+        print self.score.sheet, self.score.bonusGiven
 
     def playRound(self):
         verbosePrint("\nNext round: ")
@@ -215,6 +221,7 @@ class Game:
 
 # helper class to make decisions during game time
 class Logic:
+
     fixedScore = {
         'fh': 25,
         'ss': 30,
@@ -222,6 +229,7 @@ class Logic:
         'ya': 50,
     }
 
+    # return best dice to keep between rolls for current game state
     @staticmethod
     def bestKeepers(game):
         keep = []
@@ -244,6 +252,7 @@ class Logic:
         return keep
         # return random.sample(game.dice.dice, random.randint(1, 5))
 
+    # find the optimal row to score in
     @staticmethod
     def findOptimalRow(game):
         choices = []
@@ -258,21 +267,25 @@ class Logic:
         else:
             return openRows[0]
 
+    # calculating the expected utility (at this point only for the upper section
     @staticmethod
     def expectedUtility(game, row):
+        rollsLeft = game.rollsLeft % 3
         if len(row) == 1:
-            "SUCC"
-            rollsLeft = game.rollsLeft % 3
             countOfRow = game.dice.countOf(row)
             diceLeft = 5 - countOfRow
             eU = Logic.calcUtility(game.dice, row)
             for x in range(diceLeft + 1):
                 probability = Logic.calcDigitProbability(diceLeft, rollsLeft, x)
                 normalUtility = int(row) * probability
-                bonusUtility = ((x + countOfRow) - 3) * 35 * (float(row)*3 / 63) * probability
+                bonusUtility = ((x + countOfRow) - 3) * 35 * ((float(row)*3) / 63) * probability
                 # print bonusUtility
                 eU += (normalUtility + bonusUtility)
             return eU
+        # elif row == "ya":
+        #     countOfRow = max(game.dice.counts.values())
+        #     diceLeft = 5 - countOfRow
+        #     return 50 * Logic.calcDigitProbability(diceLeft, rollsLeft, diceLeft)
         else:
             return Logic.calcUtility(game.dice, row)
 
@@ -280,7 +293,7 @@ class Logic:
     def calcProbability(dice, row):
         return
 
-    # magic function to calculate the probability to get exactly x specific digits with y Dices an z Roll left.
+    # Magic function to calculate the probability to get exactly x specific digits with y dice and z rolls left.
     @staticmethod
     def calcDigitProbability(diceLeft, rollsLeft, digitsLeftToGet=1):
         # print "in"
@@ -302,6 +315,7 @@ class Logic:
                 # print P
             return 1 if P > 1 else P
 
+    # calculating the utility for the different score rows (=score)
     @staticmethod
     def calcUtility(dice, row):
         if row not in dice.possibleRows:
@@ -315,8 +329,9 @@ class Logic:
         return score
 
 
+# Run the game a specific amount of times and calculate stats
 totals = []
-runs = 1000
+runs = 133
 for _ in range(runs):
     gameOfYahtzee = Game()
     gameOfYahtzee.play()
