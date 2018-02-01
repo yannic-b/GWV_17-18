@@ -8,6 +8,9 @@ Version 1.0 (26.01.18, 18:41):
 # Diese Version kann ein komplettes Kniffel Spiel simulieren
 # Das Programm überlässt alle Entscheidungen dem Zufall.
 
+Version 2.0 (30.01.18, 19:29):  §
+# Das Programm trifft nun informierte Entscheidungen
+
 """
 
 import random
@@ -296,7 +299,6 @@ class Logic:
     # Magic function to calculate the probability to get exactly x specific digits with y dice and z rolls left.
     @staticmethod
     def calcDigitProbability(diceLeft, rollsLeft, digitsLeftToGet=1):
-        # print "in"
         diceLeft, rollsLeft = float(diceLeft), float(rollsLeft)
         if rollsLeft == 0:
             return 0
@@ -305,11 +307,8 @@ class Logic:
         else:
             P = 0
             for x in range(digitsLeftToGet+1):
-                # print x
                 tempP = diceLeft * (1.0/6.0)**(digitsLeftToGet - x) * (5.0/6.0)**(diceLeft-(digitsLeftToGet-x))
-                # print P
                 if x > 0:
-                    # print "if"
                     tempP *= Logic.calcDigitProbability(diceLeft-(digitsLeftToGet-x), rollsLeft - 1, x)
                 P += tempP
                 # print P
@@ -337,7 +336,7 @@ for _ in range(runs):
     gameOfYahtzee.play()
     totals.append(gameOfYahtzee.score.total)
 print "\nPlayed", runs, "games, with following results:"
-print "Highest:", max(totals), "| Lowest:",min(totals), "| Average Score:", sum(totals) / len(totals)
+print "Highest:", max(totals), "| Lowest:", min(totals), "| Average Score:", sum(totals) / len(totals)
 
 
 ### TESTING ###
